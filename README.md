@@ -1,17 +1,18 @@
-# SHYPE Launch
+# SHYPE
 
-Static MVP for **shype.app**.
+Static one-page MVP for **shype.app**.
 
-SHYPE is a liquidity-first Solana meme launchpad concept. The frontend demonstrates:
+SHYPE is positioned as a minimal Solana trading layer for:
 
-- SHYPE platform dashboard
-- Launch token section with Pump.fun flow
-- Token launch feed
-- Fee-router pie chart
-- Buyback/burn concept
-- Stake-to-support vault concept
-- Demo live feed and demo chart
-- Placeholder DEX Screener integration
+- launch routing through Pump.fun
+- swap routing through Jupiter in a later build
+- external perps routing through Jupiter/Drift links
+- stake-to-support concept without fake APY
+- fee routing model for future integrator fees
+
+## Current status
+
+This is a clean pre-launch frontend. It does **not** show fake live token data, fake launches, fake charts, fake chat, fake vault balances or fake revenue.
 
 ## GitHub Pages
 
@@ -20,20 +21,9 @@ SHYPE is a liquidity-first Solana meme launchpad concept. The frontend demonstra
 3. Choose **Deploy from a branch**.
 4. Select branch **main** and folder **/root**.
 5. Save.
-6. For the custom domain, use: `shype.app`.
 
-The repository already includes a `CNAME` file for `shype.app`.
+The repository includes a `CNAME` file for `shype.app`.
 
-## After token launch
+## Production notes
 
-Open `script.js` and paste the real SHYPE Solana mint address here:
-
-```js
-tokenAddress: ''
-```
-
-Then the page can try to pull live data from DEX Screener.
-
-## Important
-
-This is a frontend demo only. It does not mint tokens, route real fees, stake tokens, or execute buybacks. Production features need backend infrastructure, wallet integration, audited contracts/programs, and legal review.
+Real swaps, perps, staking, fee routing and buyback/burn dashboards require wallet integration, protocol integrations, backend/indexing and legal review.
