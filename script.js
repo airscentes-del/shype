@@ -7,16 +7,19 @@ const STORAGE_KEY = 'shypeTrackedTokens';
 const DRAFT_KEY = 'shypeLaunchDraft';
 
 const DEFAULT_TOKENS = [
-  { name: 'Solana', ticker: 'SOL', mint: 'So11111111111111111111111111111111111111112', decimals: 9, native: true },
-  { name: 'USD Coin', ticker: 'USDC', mint: 'EPjFWdd5AufqSSqeM2qmqpcJc8G4wEGGkZwyTDt1v', decimals: 6 },
-  { name: 'Jupiter', ticker: 'JUP', mint: 'JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN', decimals: 6 },
-  { name: 'Bonk', ticker: 'BONK', mint: 'DezXAZ8z7PnrnRJjz3m4ftxX9nkPqj3H6cV7Xk5J8N', decimals: 5 }
+  { name: 'Solana', ticker: 'SOL', mint: 'So11111111111111111111111111111111111111112', decimals: 9, native: true, colors: ['#14f195', '#9945ff'] },
+  { name: 'USD Coin', ticker: 'USDC', mint: 'EPjFWdd5AufqSSqeM2qmqpcJc8G4wEGGkZwyTDt1v', decimals: 6, colors: ['#2775ca', '#7ab8ff'] },
+  { name: 'Jupiter', ticker: 'JUP', mint: 'JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN', decimals: 6, colors: ['#fba43a', '#38cfff'] },
+  { name: 'Bonk', ticker: 'BONK', mint: 'DezXAZ8z7PnrnRJjz3m4ftxX9nkPqj3H6cV7Xk5J8N', decimals: 5, colors: ['#ffb02e', '#ff6675'] }
 ];
 
 let connectedWallet = null;
 let connectedProvider = null;
 let selectedToken = null;
 let currentQuote = null;
+let swapFromMint = DEFAULT_TOKENS[0].mint;
+let swapToMint = DEFAULT_TOKENS[1].mint;
+let pickerTarget = 'to';
 let portfolio = { sol: null, tokenAccounts: null };
 
 function shortAddress(address) {
@@ -36,6 +39,10 @@ function setMessage(id, message, color = '') {
   element.style.color = color;
 }
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+}
+
 function getTokens() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (_) { return []; }
 }
@@ -53,15 +60,36 @@ function allTokens() {
 function saveTokens(tokens) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(tokens));
   renderTokens();
-  populateSwapSelectors();
+  refreshSwapUI();
+}
+
+function tokenByMint(mint) {
+  return allTokens().find(token => token.mint === mint) || { name: 'Unknown Token', ticker: 'TOKEN', mint, decimals: 6, colors: ['#64f4cc', '#8b63ff'] };
+}
+
+function tokenAvatarHtml(token) {
+  const colors = token.colors || ['#64f4cc', '#8b63ff'];
+  const letter = escapeHtml((token.ticker || '?').slice(0, 1));
+  return `<span class="tokenAvatar" style="background:linear-gradient(135deg,${colors[0]},${colors[1]});">${letter}</span>`;
+}
+
+function tokenButtonHtml(token) {
+  return `${tokenAvatarHtml(token)}<span class="tokenMeta"><span class="tokenSymbol">${escapeHtml(token.ticker)}</span><span class="tokenName">${escapeHtml(token.name)}</span></span>`;
+}
+
+function refreshSwapUI() {
+  const fromButton = document.getElementById('swapFromButton');
+  const toButton = document.getElementById('swapToButton');
+  if (fromButton) fromButton.innerHTML = tokenButtonHtml(tokenByMint(swapFromMint));
+  if (toButton) toButton.innerHTML = tokenButtonHtml(tokenByMint(swapToMint));
 }
 
 function updateSelectedToken(token) {
   selectedToken = token;
   setText('selectedTokenText', token ? `${token.name} (${token.ticker}) · ${shortAddress(token.mint)}` : 'No token selected. Add one under Tokens.');
   if (token) {
-    const swapTo = document.getElementById('swapTo');
-    if (swapTo) swapTo.value = token.mint;
+    swapToMint = token.mint;
+    refreshSwapUI();
   }
 }
 
@@ -88,38 +116,60 @@ function renderTokens() {
     button.addEventListener('click', () => {
       const token = getTokens()[Number(button.dataset.tradeToken)];
       updateSelectedToken(token);
-      populateSwapSelectors();
       showView('swap');
     });
   });
   document.querySelectorAll('[data-remove-token]').forEach(button => {
-    button.addEventListener('click', () => {
-      const next = getTokens().filter((_, idx) => idx !== Number(button.dataset.removeToken));
-      saveTokens(next);
-    });
+    button.addEventListener('click', () => saveTokens(getTokens().filter((_, idx) => idx !== Number(button.dataset.removeToken))));
   });
 }
 
-function escapeHtml(value) {
-  return String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+function openTokenPicker(target) {
+  pickerTarget = target;
+  renderTokenPicker('');
+  const modal = document.getElementById('tokenPicker');
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  setTimeout(() => document.getElementById('tokenSearch')?.focus(), 100);
 }
 
-function populateSwapSelectors() {
-  const from = document.getElementById('swapFrom');
-  const to = document.getElementById('swapTo');
-  if (!from || !to) return;
-  const tokens = allTokens();
-  const options = tokens.map(token => `<option value="${token.mint}">${token.ticker}</option>`).join('');
-  const oldFrom = from.value || DEFAULT_TOKENS[0].mint;
-  const oldTo = selectedToken?.mint || to.value || DEFAULT_TOKENS[1].mint;
-  from.innerHTML = options;
-  to.innerHTML = options;
-  from.value = tokens.some(token => token.mint === oldFrom) ? oldFrom : DEFAULT_TOKENS[0].mint;
-  to.value = tokens.some(token => token.mint === oldTo) ? oldTo : DEFAULT_TOKENS[1].mint;
+function closeTokenPicker() {
+  const modal = document.getElementById('tokenPicker');
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
 }
 
-function tokenByMint(mint) {
-  return allTokens().find(token => token.mint === mint) || { name: 'Unknown', ticker: 'TOKEN', mint, decimals: 6 };
+function renderTokenPicker(query = '') {
+  const list = document.getElementById('tokenPickerList');
+  if (!list) return;
+  const q = query.trim().toLowerCase();
+  const tokens = allTokens().filter(token => !q || token.name.toLowerCase().includes(q) || token.ticker.toLowerCase().includes(q) || token.mint.toLowerCase().includes(q));
+  if (!tokens.length) {
+    list.innerHTML = '<div class="emptyList">No token found. Add the mint under Tokens first.</div>';
+    return;
+  }
+  list.innerHTML = tokens.map((token, index) => `
+    <button class="tokenOption" type="button" data-picker-token="${index}">
+      <span class="tokenOptionMain">${tokenAvatarHtml(token)}<span class="tokenMeta"><span class="tokenSymbol">${escapeHtml(token.ticker)}</span><span class="tokenName">${escapeHtml(token.name)}</span></span></span>
+      <small>${shortAddress(token.mint)}</small>
+    </button>
+  `).join('');
+  document.querySelectorAll('[data-picker-token]').forEach(button => {
+    button.addEventListener('click', () => {
+      const token = tokens[Number(button.dataset.pickerToken)];
+      if (pickerTarget === 'from') swapFromMint = token.mint;
+      if (pickerTarget === 'to') {
+        swapToMint = token.mint;
+        updateSelectedToken(token);
+      }
+      currentQuote = null;
+      const out = document.getElementById('swapOut');
+      if (out) out.value = '';
+      document.getElementById('quoteBox').textContent = 'Token selected. Enter an amount to request a quote.';
+      refreshSwapUI();
+      closeTokenPicker();
+    });
+  });
 }
 
 async function rpc(method, params) {
@@ -141,29 +191,23 @@ async function loadPortfolio(address) {
   setText('perpsSol', 'Loading');
   setText('tokenStatus', 'Loading');
   setText('perpsTokens', 'Loading');
-
   try {
     const balanceResult = await rpc('getBalance', [address, { commitment: 'confirmed' }]);
     const sol = balanceResult.value / 1000000000;
     portfolio.sol = sol;
     setText('solStatus', sol.toFixed(4) + ' SOL');
     setText('perpsSol', sol.toFixed(4) + ' SOL');
-  } catch (error) {
+  } catch (_) {
     setText('solStatus', 'RPC error');
     setText('perpsSol', 'RPC error');
   }
-
   try {
     const tokenResult = await rpc('getTokenAccountsByOwner', [address, { programId: TOKEN_PROGRAM_ID }, { encoding: 'jsonParsed', commitment: 'confirmed' }]);
-    const accounts = tokenResult.value || [];
-    const nonZero = accounts.filter(item => {
-      const amount = item.account?.data?.parsed?.info?.tokenAmount?.uiAmount || 0;
-      return amount > 0;
-    });
+    const nonZero = (tokenResult.value || []).filter(item => (item.account?.data?.parsed?.info?.tokenAmount?.uiAmount || 0) > 0);
     portfolio.tokenAccounts = nonZero.length;
     setText('tokenStatus', String(nonZero.length));
     setText('perpsTokens', String(nonZero.length));
-  } catch (error) {
+  } catch (_) {
     setText('tokenStatus', 'RPC error');
     setText('perpsTokens', 'RPC error');
   }
@@ -180,10 +224,7 @@ viewButtons.forEach(button => button.addEventListener('click', () => showView(bu
 
 function getWalletProviders() {
   const candidates = [];
-  const add = (name, provider) => {
-    if (!provider || candidates.some(item => item.provider === provider)) return;
-    candidates.push({ name, provider });
-  };
+  const add = (name, provider) => { if (provider && !candidates.some(item => item.provider === provider)) candidates.push({ name, provider }); };
   add('Phantom', window.phantom?.solana);
   add('Solflare', window.solflare);
   add('Backpack', window.backpack?.solana);
@@ -203,13 +244,11 @@ function openWalletModal() {
     list.innerHTML = '<div class="emptyList">No Solana wallet detected. Open this page in Phantom, Solflare, Backpack, Glow, OKX or another Solana wallet browser.</div>';
   } else {
     list.innerHTML = wallets.map((wallet, index) => `<button class="walletOption" type="button" data-wallet="${index}"><span>${wallet.name}</span><small>Connect</small></button>`).join('');
-    document.querySelectorAll('[data-wallet]').forEach(button => {
-      button.addEventListener('click', async () => {
-        const wallet = wallets[Number(button.dataset.wallet)];
-        await connectProvider(wallet.provider);
-        closeWalletModal();
-      });
-    });
+    document.querySelectorAll('[data-wallet]').forEach(button => button.addEventListener('click', async () => {
+      const wallet = wallets[Number(button.dataset.wallet)];
+      await connectProvider(wallet.provider);
+      closeWalletModal();
+    }));
   }
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
@@ -229,40 +268,28 @@ async function connectProvider(provider) {
   const key = publicKey.toString();
   connectedWallet = key;
   connectedProvider = provider;
-  const walletButton = document.getElementById('walletButton');
-  walletButton.textContent = shortAddress(key);
+  document.getElementById('walletButton').textContent = shortAddress(key);
   await loadPortfolio(key);
 }
 
 function toBase64(uint8Array) {
   let binary = '';
-  const chunkSize = 0x8000;
-  for (let i = 0; i < uint8Array.length; i += chunkSize) {
-    binary += String.fromCharCode(...uint8Array.subarray(i, i + chunkSize));
-  }
+  for (let i = 0; i < uint8Array.length; i += 0x8000) binary += String.fromCharCode(...uint8Array.subarray(i, i + 0x8000));
   return btoa(binary);
 }
 
 async function getJupiterQuote() {
   currentQuote = null;
-  const fromMint = document.getElementById('swapFrom').value;
-  const toMint = document.getElementById('swapTo').value;
   const amountValue = Number(document.getElementById('swapAmount').value);
-  const fromToken = tokenByMint(fromMint);
-  const toToken = tokenByMint(toMint);
-  if (!amountValue || amountValue <= 0) {
-    setMessage('swapNote', 'Enter a valid amount.', '#ff6675');
-    return;
-  }
-  if (fromMint === toMint) {
-    setMessage('swapNote', 'Choose two different tokens.', '#ff6675');
-    return;
-  }
+  const fromToken = tokenByMint(swapFromMint);
+  const toToken = tokenByMint(swapToMint);
+  if (!amountValue || amountValue <= 0) { setMessage('swapNote', 'Enter a valid amount.', '#ff6675'); return; }
+  if (swapFromMint === swapToMint) { setMessage('swapNote', 'Choose two different tokens.', '#ff6675'); return; }
   const amount = Math.round(amountValue * Math.pow(10, fromToken.decimals || 6));
   setMessage('swapNote', 'Loading Jupiter quote…', '');
   document.getElementById('quoteBox').textContent = 'Requesting route…';
   try {
-    const url = `https://quote-api.jup.ag/v6/quote?inputMint=${encodeURIComponent(fromMint)}&outputMint=${encodeURIComponent(toMint)}&amount=${amount}&slippageBps=75`;
+    const url = `https://quote-api.jup.ag/v6/quote?inputMint=${encodeURIComponent(swapFromMint)}&outputMint=${encodeURIComponent(swapToMint)}&amount=${amount}&slippageBps=75`;
     const response = await fetch(url);
     const quote = await response.json();
     if (!quote?.outAmount) throw new Error('No route returned');
@@ -271,33 +298,19 @@ async function getJupiterQuote() {
     document.getElementById('swapOut').value = out.toFixed(6);
     document.getElementById('quoteBox').textContent = `${amountValue} ${fromToken.ticker} → ${out.toFixed(6)} ${toToken.ticker}. Price impact: ${quote.priceImpactPct || '0'}%.`;
     setMessage('swapNote', 'Quote ready. Review it, then sign with wallet.', '#64f4cc');
-  } catch (error) {
+  } catch (_) {
     document.getElementById('quoteBox').textContent = 'No route available or quote API unavailable.';
     setMessage('swapNote', 'Quote failed. Try another token pair or amount.', '#ff6675');
   }
 }
 
 async function executeSwap() {
-  if (!connectedWallet || !connectedProvider) {
-    openWalletModal();
-    setMessage('swapNote', 'Connect wallet first.', '#ff6675');
-    return;
-  }
-  if (!currentQuote) {
-    setMessage('swapNote', 'Get a quote first.', '#ff6675');
-    return;
-  }
-  if (!window.solanaWeb3?.VersionedTransaction) {
-    setMessage('swapNote', 'Solana transaction library not loaded. Refresh and try again.', '#ff6675');
-    return;
-  }
+  if (!connectedWallet || !connectedProvider) { openWalletModal(); setMessage('swapNote', 'Connect wallet first.', '#ff6675'); return; }
+  if (!currentQuote) { setMessage('swapNote', 'Get a quote first.', '#ff6675'); return; }
+  if (!window.solanaWeb3?.VersionedTransaction) { setMessage('swapNote', 'Solana transaction library not loaded. Refresh and try again.', '#ff6675'); return; }
   setMessage('swapNote', 'Preparing wallet transaction…', '');
   try {
-    const response = await fetch('https://quote-api.jup.ag/v6/swap', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quoteResponse: currentQuote, userPublicKey: connectedWallet, wrapAndUnwrapSol: true })
-    });
+    const response = await fetch('https://quote-api.jup.ag/v6/swap', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ quoteResponse: currentQuote, userPublicKey: connectedWallet, wrapAndUnwrapSol: true }) });
     const data = await response.json();
     if (!data.swapTransaction) throw new Error(data.error || 'No swap transaction returned');
     const raw = Uint8Array.from(atob(data.swapTransaction), char => char.charCodeAt(0));
@@ -319,18 +332,10 @@ if (addToken) {
     const mint = document.getElementById('tokenMint').value.trim();
     const decimals = Number(document.getElementById('tokenDecimals')?.value || 6);
     const result = document.getElementById('tokenResult');
-    if (!name || !ticker || mint.length < 32) {
-      result.textContent = 'Add name, ticker and a valid Solana mint.';
-      result.style.color = '#ff6675';
-      return;
-    }
+    if (!name || !ticker || mint.length < 32) { result.textContent = 'Add name, ticker and a valid Solana mint.'; result.style.color = '#ff6675'; return; }
     const tokens = getTokens();
-    if (tokens.some(token => token.mint === mint)) {
-      result.textContent = 'Token is already on your board.';
-      result.style.color = '#ff6675';
-      return;
-    }
-    tokens.unshift({ name, ticker, mint, decimals: Number.isFinite(decimals) ? decimals : 6 });
+    if (tokens.some(token => token.mint === mint)) { result.textContent = 'Token is already on your board.'; result.style.color = '#ff6675'; return; }
+    tokens.unshift({ name, ticker, mint, decimals: Number.isFinite(decimals) ? decimals : 6, colors: ['#64f4cc', '#8b63ff'] });
     saveTokens(tokens);
     updateSelectedToken(tokens[0]);
     result.textContent = 'Token added. Use Trade to open it in Swap.';
@@ -355,11 +360,7 @@ if (prepareLaunch) {
       preparedAt: new Date().toISOString()
     };
     const result = document.getElementById('launchResult');
-    if (!draft.name || !draft.ticker) {
-      result.textContent = 'Add token name and ticker first.';
-      result.style.color = '#ff6675';
-      return;
-    }
+    if (!draft.name || !draft.ticker) { result.textContent = 'Add token name and ticker first.'; result.style.color = '#ff6675'; return; }
     localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
     result.textContent = `${draft.name} (${draft.ticker}) draft saved locally. Open Pump.fun and paste the details there.`;
     result.style.color = '#64f4cc';
@@ -375,10 +376,7 @@ if (launchImage) {
     const file = event.target.files?.[0];
     const preview = document.getElementById('imagePreview');
     if (!file || !preview) return;
-    if (file.size > 5 * 1024 * 1024) {
-      preview.textContent = 'Image is too large. Use max 5 MB.';
-      return;
-    }
+    if (file.size > 5 * 1024 * 1024) { preview.textContent = 'Image is too large. Use max 5 MB.'; return; }
     const reader = new FileReader();
     reader.onload = () => { preview.innerHTML = `<img src="${reader.result}" alt="Token preview" />`; };
     reader.readAsDataURL(file);
@@ -409,24 +407,27 @@ const walletButton = document.getElementById('walletButton');
 walletButton.addEventListener('click', openWalletModal);
 document.getElementById('closeWalletModal')?.addEventListener('click', closeWalletModal);
 document.getElementById('walletModal')?.addEventListener('click', event => { if (event.target.id === 'walletModal') closeWalletModal(); });
+document.getElementById('closeTokenPicker')?.addEventListener('click', closeTokenPicker);
+document.getElementById('tokenPicker')?.addEventListener('click', event => { if (event.target.id === 'tokenPicker') closeTokenPicker(); });
+document.getElementById('tokenSearch')?.addEventListener('input', event => renderTokenPicker(event.target.value));
+document.querySelectorAll('[data-token-target]').forEach(button => button.addEventListener('click', () => openTokenPicker(button.dataset.tokenTarget)));
 document.getElementById('getQuote')?.addEventListener('click', getJupiterQuote);
 document.getElementById('executeSwap')?.addEventListener('click', executeSwap);
 document.getElementById('switchSwap')?.addEventListener('click', () => {
-  const from = document.getElementById('swapFrom');
-  const to = document.getElementById('swapTo');
-  const temp = from.value;
-  from.value = to.value;
-  to.value = temp;
+  const temp = swapFromMint;
+  swapFromMint = swapToMint;
+  swapToMint = temp;
   currentQuote = null;
   document.getElementById('swapOut').value = '';
   document.getElementById('quoteBox').textContent = 'Tokens switched. Request a new quote.';
+  refreshSwapUI();
 });
 
 document.querySelectorAll('[data-soon]').forEach(button => button.addEventListener('click', () => alert('This module needs a real protocol/SDK integration before it can go live.')));
 
 window.addEventListener('load', async () => {
   renderTokens();
-  populateSwapSelectors();
+  refreshSwapUI();
   const hash = location.hash.replace('#', '');
   showView(hash || 'overview');
 });
