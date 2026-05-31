@@ -5,7 +5,14 @@ import { usePathname } from 'next/navigation';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 const logoUrl = 'https://raw.githubusercontent.com/airscentes-del/shype/main/IMG_2365.png';
-const items = [['/', 'Overview'], ['/swap', 'Swap'], ['/perps', 'Perps'], ['/stake', 'Stake'], ['/launch', 'Launch'], ['/vault', 'Vault']];
+const items = [
+  ['/', 'Home'],
+  ['/swap', 'Swap'],
+  ['/perps', 'Perps'],
+  ['/stake', 'Stake'],
+  ['/launch', 'Launch'],
+  ['/vault', 'Vault']
+];
 
 export default function Navigation() {
   const pathname = usePathname();
