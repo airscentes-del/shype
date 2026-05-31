@@ -9,19 +9,19 @@
   <title>SHYPE — Solana Terminal</title>
   <meta name="description" content="SHYPE is a compact Solana interface for wallet portfolio, token watchlists, swap routing, perps access and vault transparency." />
   <meta name="theme-color" content="#050706" />
-  <link rel="icon" href="IMG_2365.png?v=5" />
-  <link rel="stylesheet" href="styles.css?v=20260531-5" />
-  <link rel="stylesheet" href="shype-extra.css?v=20260531-5" />
+  <link rel="icon" href="IMG_2365.png?v=6" />
+  <link rel="stylesheet" href="styles.css?v=20260531-6" />
+  <link rel="stylesheet" href="shype-extra.css?v=20260531-6" />
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" type="button" data-view="overview" aria-label="SHYPE home"><img src="IMG_2365.png?v=5" alt="SHYPE" /><span>SHYPE</span></button>
+    <button class="brand" type="button" data-view="overview" aria-label="SHYPE home"><img src="IMG_2365.png?v=6" alt="SHYPE" /><span>SHYPE</span></button>
     <nav class="nav" aria-label="App navigation">
       <button class="navItem active" type="button" data-view="overview">Home</button>
       <button class="navItem" type="button" data-view="swap">Swap</button>
       <button class="navItem" type="button" data-view="perps">Perps</button>
       <button class="navItem" type="button" data-view="tokens">Tokens</button>
-      <button class="navItem" type="button" data-view="stake">Stake</button>
+      <button class="navItem" type="button" data-view="launch">Launch</button>
       <button class="navItem" type="button" data-view="vault">Vault</button>
     </nav>
     <button class="walletButton" id="walletButton" type="button">Connect wallet</button>
@@ -30,71 +30,22 @@
   <main class="appFrame">
     <section class="view active" id="overview">
       <div class="dashboardGrid">
-        <article class="mainPanel">
-          <p class="eyebrow">SHYPE terminal</p>
-          <h1>Track tokens, swap fast, route perps.</h1>
-          <p class="lead">A compact Solana surface for your wallet, token watchlist, embedded Jupiter swaps and a perps routing desk. No fake launches, no fake balances.</p>
-          <div class="actions"><button class="primaryAction" type="button" data-view="tokens">Add token</button><button class="secondaryAction" type="button" data-view="swap">Open swap</button></div>
-        </article>
-        <aside class="statusPanel">
-          <div><span>Wallet</span><strong id="walletStatus">Not connected</strong></div>
-          <div><span>SOL balance</span><strong id="solStatus">—</strong></div>
-          <div><span>Token accounts</span><strong id="tokenStatus">—</strong></div>
-          <div><span>Tracked tokens</span><strong id="trackedStatus">0</strong></div>
-        </aside>
+        <article class="mainPanel"><p class="eyebrow">SHYPE terminal</p><h1>Track tokens, swap fast, route perps.</h1><p class="lead">A compact Solana surface for your wallet, token watchlist, embedded swaps and a perps routing desk. No fake activity.</p><div class="actions"><button class="primaryAction" type="button" data-view="launch">Create launch</button><button class="secondaryAction" type="button" data-view="tokens">Browse tokens</button></div></article>
+        <aside class="statusPanel"><div><span>Wallet</span><strong id="walletStatus">Not connected</strong></div><div><span>SOL balance</span><strong id="solStatus">—</strong></div><div><span>Token accounts</span><strong id="tokenStatus">—</strong></div><div><span>Tracked tokens</span><strong id="trackedStatus">0</strong></div></aside>
       </div>
-
-      <div class="tileGrid">
-        <button class="tile" type="button" data-view="tokens"><span>01</span><b>Tokens</b><p>Add mints to your SHYPE board and trade them from the swap terminal.</p></button>
-        <button class="tile" type="button" data-view="swap"><span>02</span><b>Swap</b><p>Jupiter terminal embedded inside SHYPE.</p></button>
-        <button class="tile" type="button" data-view="perps"><span>03</span><b>Perps</b><p>Wallet-aware perps routing desk.</p></button>
-        <button class="tile" type="button" data-view="vault"><span>04</span><b>Vault</b><p>Fee routing model with no fake revenue.</p></button>
-      </div>
+      <div class="tileGrid"><button class="tile" type="button" data-view="launch"><span>01</span><b>Launch</b><p>Prepare a token profile and routing plan.</p></button><button class="tile" type="button" data-view="tokens"><span>02</span><b>Tokens</b><p>Add mints to your SHYPE board.</p></button><button class="tile" type="button" data-view="swap"><span>03</span><b>Swap</b><p>Jupiter terminal embedded inside SHYPE.</p></button><button class="tile" type="button" data-view="perps"><span>04</span><b>Perps</b><p>Wallet-aware routing desk.</p></button></div>
     </section>
 
-    <section class="view" id="swap">
-      <div class="screenHead"><p class="eyebrow">Swap</p><h2>Swap inside SHYPE.</h2><p>Jupiter is loaded directly in this page. Select a token from your board, then use the embedded terminal to trade.</p></div>
-      <div class="contentGrid swapGrid">
-        <article class="terminalPanel"><div id="jupiter-terminal" class="jupiterBox"><div class="loading">Loading Jupiter terminal…</div></div></article>
-        <aside class="sidePanel"><h3>Selected token</h3><p id="selectedTokenText">No token selected. Add one under Tokens.</p><div class="actions"><button class="secondaryAction full" type="button" data-view="tokens">Open token board</button></div><ul><li>Jupiter handles route discovery.</li><li>User signs in Phantom or another Solana wallet.</li><li>SHYPE does not hold user funds.</li></ul></aside>
-      </div>
-    </section>
+    <section class="view" id="swap"><div class="screenHead"><p class="eyebrow">Swap</p><h2>Swap inside SHYPE.</h2><p>Jupiter is loaded directly in this page. Select a token from your board, then use the embedded terminal to trade.</p></div><div class="contentGrid swapGrid"><article class="terminalPanel"><div id="jupiter-terminal" class="jupiterBox"><div class="loading">Loading Jupiter terminal…</div></div></article><aside class="sidePanel"><h3>Selected token</h3><p id="selectedTokenText">No token selected. Add one under Tokens.</p><div class="actions"><button class="secondaryAction full" type="button" data-view="tokens">Open token board</button></div><ul><li>Jupiter handles route discovery.</li><li>User signs in Phantom or another Solana wallet.</li><li>SHYPE does not hold user funds.</li></ul></aside></div></section>
 
-    <section class="view" id="perps">
-      <div class="screenHead"><p class="eyebrow">Perps</p><h2>Perps routing desk.</h2><p>Wallet context is shown inside SHYPE. Direct perps orders need an official SDK/API build; until then, SHYPE prepares the route and opens the selected venue.</p></div>
-      <div class="contentGrid perpsGrid">
-        <article class="formPanel routePanel">
-          <div class="miniStats"><div><span>Wallet</span><strong id="perpsWallet">Not connected</strong></div><div><span>SOL</span><strong id="perpsSol">—</strong></div><div><span>Tokens</span><strong id="perpsTokens">—</strong></div></div>
-          <label>Venue<select id="perpsVenue"><option value="jupiter">Jupiter Perps</option><option value="drift">Drift</option></select></label>
-          <label>Market<select id="perpsMarket"><option>SOL-PERP</option><option>BTC-PERP</option><option>ETH-PERP</option></select></label>
-          <label>Collateral<input id="perpsCollateral" placeholder="0.00 SOL" inputmode="decimal" /></label>
-          <label>Leverage<select id="perpsLeverage"><option>2x</option><option>5x</option><option>10x</option><option>25x</option></select></label>
-          <button class="primaryAction full" type="button" id="preparePerps">Prepare route</button>
-          <p class="note" id="perpsNote">Connect wallet to load portfolio first.</p>
-        </article>
-        <aside class="sidePanel"><h3>How this will work</h3><div class="warningBox">Perps are not simulated. SHYPE will only show real wallet data and route to real venues until direct SDK execution is built.</div><ul><li>Phase 1: wallet portfolio and route prep.</li><li>Phase 2: venue routing with selected context.</li><li>Phase 3: official SDK/API execution.</li></ul><div class="venueButtons"><button class="secondaryAction full" type="button" id="openPerpsVenue">Open venue</button><button class="secondaryAction full" type="button" data-view="tokens">Use token board</button></div></aside>
-      </div>
-    </section>
+    <section class="view" id="perps"><div class="screenHead"><p class="eyebrow">Perps</p><h2>Perps routing desk.</h2><p>Wallet context is shown inside SHYPE. Direct perps orders need an official SDK/API build; until then, SHYPE prepares the route and opens the selected venue.</p></div><div class="contentGrid perpsGrid"><article class="formPanel routePanel"><div class="miniStats"><div><span>Wallet</span><strong id="perpsWallet">Not connected</strong></div><div><span>SOL</span><strong id="perpsSol">—</strong></div><div><span>Tokens</span><strong id="perpsTokens">—</strong></div></div><label>Venue<select id="perpsVenue"><option value="jupiter">Jupiter Perps</option><option value="drift">Drift</option></select></label><label>Market<select id="perpsMarket"><option>SOL-PERP</option><option>BTC-PERP</option><option>ETH-PERP</option></select></label><label>Collateral<input id="perpsCollateral" placeholder="0.00 SOL" inputmode="decimal" /></label><label>Leverage<select id="perpsLeverage"><option>2x</option><option>5x</option><option>10x</option><option>25x</option></select></label><button class="primaryAction full" type="button" id="preparePerps">Prepare route</button><p class="note" id="perpsNote">Connect wallet to load portfolio first.</p></article><aside class="sidePanel"><h3>Direct perps path</h3><div class="warningBox">SHYPE shows wallet data and route context first. Direct execution needs official venue integration.</div><ul><li>Markets: BTC, ETH, SOL.</li><li>Wallet and collateral context.</li><li>Venue adapter next.</li></ul><div class="venueButtons"><button class="secondaryAction full" type="button" id="openPerpsVenue">Open venue</button><button class="secondaryAction full" type="button" data-view="tokens">Use token board</button></div></aside></div></section>
 
-    <section class="view" id="tokens">
-      <div class="screenHead"><p class="eyebrow">Tokens</p><h2>Token board.</h2><p>Add Solana token mints you want to track. They are saved locally in your browser and can be opened in the SHYPE swap screen.</p></div>
-      <div class="contentGrid tokenBoardGrid">
-        <article class="formPanel"><label>Token name<input id="tokenName" placeholder="Example: SHYPE" /></label><label>Ticker<input id="tokenTicker" placeholder="SHYPE" /></label><label>Mint address<input id="tokenMint" placeholder="Paste Solana mint address" /></label><button class="primaryAction full" id="addToken" type="button">Add token</button><p class="note" id="tokenResult">No backend yet. Token board is local to this browser.</p></article>
-        <aside class="sidePanel"><h3>Tracked tokens</h3><div id="tokenList" class="tokenList"><div class="emptyList">No tokens added yet.</div></div></aside>
-      </div>
-    </section>
+    <section class="view" id="tokens"><div class="screenHead"><p class="eyebrow">Tokens</p><h2>Token board.</h2><p>Add Solana token mints you want to track. They are saved locally in your browser and can be opened in the SHYPE swap screen.</p></div><div class="contentGrid tokenBoardGrid"><article class="formPanel"><label>Token name<input id="tokenName" placeholder="Example: SHYPE" /></label><label>Ticker<input id="tokenTicker" placeholder="SHYPE" /></label><label>Mint address<input id="tokenMint" placeholder="Paste Solana mint address" /></label><button class="primaryAction full" id="addToken" type="button">Add token</button><p class="note" id="tokenResult">No backend yet. Token board is local to this browser.</p></article><aside class="sidePanel"><h3>Tracked tokens</h3><div id="tokenList" class="tokenList"><div class="emptyList">No tokens added yet.</div></div></aside></div></section>
 
-    <section class="view" id="stake">
-      <div class="screenHead"><p class="eyebrow">Stake</p><h2>Stake-to-support.</h2><p>No fake APY. This opens only after the SHYPE token and vault contracts are reviewed.</p></div>
-      <div class="contentGrid"><article class="formPanel"><label>Token mint<input placeholder="Paste tracked token mint" /></label><label>Amount<input placeholder="0.00" inputmode="decimal" /></label><button class="primaryAction full" type="button" data-soon>Staking not live yet</button></article><aside class="sidePanel"><h3>Purpose</h3><ul><li>Community lock badge.</li><li>Trust score for tracked tokens.</li><li>Variable claims only from real fees.</li><li>No guaranteed return wording.</li></ul></aside></div>
-    </section>
+    <section class="view" id="launch"><div class="screenHead"><p class="eyebrow">Launch</p><h2>Create a launch.</h2><p>Prepare token details and fee routing. Real minting requires the next contract or launch-adapter build.</p></div><div class="contentGrid tokenBoardGrid"><article class="formPanel"><label>Token name<input id="launchName" placeholder="Example: Frog Terminal" /></label><label>Ticker<input id="launchTicker" placeholder="FROG" /></label><label>Supply<input id="launchSupply" value="1000000000" inputmode="numeric" /></label><label>Routing mode<select id="launchEvent"><option value="main">Main SHYPE route</option><option value="vote">Community vote route</option><option value="winner">Event winner route</option></select></label><button class="primaryAction full" id="prepareLaunch" type="button">Prepare launch</button><p class="note" id="launchResult">Transaction builder is the next build step.</p></article><aside class="sidePanel"><h3>Routing logic</h3><div class="feePanel compactFee"><div><span>Main route</span><strong>40%</strong></div><div><span>Launch liquidity</span><strong>25%</strong></div><div><span>Event pool</span><strong>25%</strong></div><div><span>Operations</span><strong>10%</strong></div></div><p class="note">This needs on-chain vault accounts before real funds can move.</p></aside></div></section>
 
-    <section class="view" id="vault">
-      <div class="screenHead"><p class="eyebrow">Vault</p><h2>Fee routing model.</h2><p>No active fee collection yet. These values go live only after real fee accounts exist.</p></div>
-      <div class="contentGrid vaultGrid"><article class="donutPanel"><div class="donut"><span>0 SOL<small>active</small></span></div></article><article class="feePanel"><div><span>SHYPE buyback and burn</span><strong>40%</strong></div><div><span>Liquidity support</span><strong>25%</strong></div><div><span>Operations treasury</span><strong>25%</strong></div><div><span>Community vault</span><strong>10%</strong></div><p>No fake revenue. No fake buybacks.</p></article></div>
-    </section>
+    <section class="view" id="vault"><div class="screenHead"><p class="eyebrow">Vault</p><h2>Fee routing model.</h2><p>No active fee collection yet. These values go live only after real fee accounts exist.</p></div><div class="contentGrid vaultGrid"><article class="donutPanel"><div class="donut"><span>0 SOL<small>active</small></span></div></article><article class="feePanel"><div><span>SHYPE buyback and burn</span><strong>40%</strong></div><div><span>Liquidity support</span><strong>25%</strong></div><div><span>Event pool</span><strong>25%</strong></div><div><span>Operations treasury</span><strong>10%</strong></div><p>No fake revenue. No fake buybacks.</p></article></div></section>
   </main>
-
-  <script src="script.js?v=20260531-5"></script>
+  <script src="script.js?v=20260531-6"></script>
 </body>
 </html>
