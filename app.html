@@ -2,25 +2,190 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>SHYPE App</title>
-  <meta name="theme-color" content="#050706" />
-  <link rel="icon" href="IMG_2365.png?v=10" />
-  <link rel="stylesheet" href="styles.css?v=20260531-10" />
-  <link rel="stylesheet" href="shype-extra.css?v=20260531-10" />
-  <link rel="stylesheet" href="button-fix.css?v=20260531-10" />
+  <meta name="description" content="SHYPE app terminal for Solana perps, markets, portfolio, vaults and launch workflows." />
+  <meta name="theme-color" content="#061923" />
+  <link rel="icon" href="IMG_2365.png?v=31" />
+  <link rel="stylesheet" href="styles.css?v=20260531-31" />
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="index.html"><img src="IMG_2365.png?v=10" alt="SHYPE" /><span>SHYPE</span></a>
-    <nav class="nav"><a class="navItem active" href="#overview">Home</a><a class="navItem" href="#swap">Swap</a><a class="navItem" href="#launch">Launch</a><a class="navItem" href="#vault">Vault</a></nav>
-    <button class="walletButton" type="button">Connect wallet</button>
-  </header>
-  <main class="appFrame">
-    <section class="view active" id="overview"><div class="dashboardGrid"><article class="mainPanel"><p class="eyebrow">SHYPE app</p><h1>The trading terminal comes here.</h1><p class="lead">This subpage is reserved for the SHYPE app: swap, token launch drafts, market board, perps routing and vault transparency.</p><div class="actions"><a class="primaryAction" href="#launch">Create launch</a><a class="secondaryAction" href="#swap">Open swap</a></div></article><aside class="statusPanel"><div><span>Status</span><strong>App page</strong></div><div><span>Network</span><strong>Solana</strong></div><div><span>Custody</span><strong>None</strong></div><div><span>Mode</span><strong>Static GitHub</strong></div></aside></div></section>
-    <section class="view active" id="swap"><div class="screenHead"><p class="eyebrow">Swap</p><h2>Swap module.</h2><p>Native SHYPE swap UI will be connected here after the landing page is finished.</p></div></section>
-    <section class="view active" id="launch"><div class="screenHead"><p class="eyebrow">Launch</p><h2>Launch module.</h2><p>Token image, links, community and routing model will live here.</p></div></section>
-    <section class="view active" id="vault"><div class="screenHead"><p class="eyebrow">Vault</p><h2>Fee routing model.</h2><p>40% SHYPE route, 25% liquidity, 25% event pool, 10% operations.</p></div></section>
-  </main>
+  <div class="terminalShell">
+    <header class="appTopbar">
+      <div class="topbarLeft">
+        <button class="iconButton menuToggle" type="button" aria-label="Open menu" aria-controls="sideDrawer" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <a class="appLogo" href="index.html" aria-label="SHYPE home">
+          <img src="IMG_2365.png?v=31" alt="" />
+          <span>SHYPE</span>
+        </a>
+      </div>
+      <div class="topbarRight">
+        <button class="connectButton" type="button">Connect</button>
+        <button class="iconButton" type="button" aria-label="Network">◎</button>
+        <button class="iconButton" type="button" aria-label="Settings">⚙</button>
+      </div>
+    </header>
+
+    <div class="drawerBackdrop" data-close-menu></div>
+    <aside class="sideDrawer" id="sideDrawer" aria-label="SHYPE navigation">
+      <div class="drawerLogo">
+        <img src="IMG_2365.png?v=31" alt="" />
+      </div>
+      <nav class="drawerNav">
+        <button class="drawerItem active" type="button" data-view="trade">Trade</button>
+        <button class="drawerItem" type="button" data-view="portfolio">Portfolio</button>
+        <button class="drawerItem" type="button" data-view="earn">Earn</button>
+        <button class="drawerItem" type="button" data-view="vault">Vault</button>
+        <button class="drawerItem" type="button" data-view="leaderboard">Leaderboard</button>
+        <button class="drawerItem" type="button" data-view="referrals">Referrals</button>
+        <span class="drawerRule"></span>
+        <button class="drawerItem muted" type="button" data-view="markets">Markets</button>
+        <button class="drawerItem muted" type="button" data-view="launch">Launch</button>
+        <a class="drawerItem muted linkItem" href="docs.html">Documents</a>
+      </nav>
+    </aside>
+
+    <main class="appMain">
+      <section class="terminalView active" data-panel="trade">
+        <div class="marketStrip">
+          <button class="pairButton" type="button" data-view="markets">
+            <span class="pairLogo"><img src="IMG_2365.png?v=31" alt="" /></span>
+            <span><strong>SHYPE-USDC</strong><small>Solana perpetual · 10x</small></span>
+            <span class="chevron">⌄</span>
+          </button>
+          <div class="marketPrice">
+            <strong>71,143</strong>
+            <span>+3,430 / +5.06%</span>
+          </div>
+          <button class="iconButton pairMore" type="button" aria-label="Market options">⌄</button>
+        </div>
+
+        <div class="terminalGrid">
+          <section class="chartCard">
+            <div class="terminalTabs">
+              <button class="active" type="button">Chart</button>
+              <button type="button">Order Book</button>
+              <button type="button">Trades</button>
+              <button type="button">Info</button>
+            </div>
+            <div class="chartToolbar">
+              <span>5m</span><strong>1h</strong><span>4h</span><span>1D</span><i></i><span>Indicators</span><button type="button">⛶</button>
+            </div>
+            <div class="chartArea" aria-label="Preview chart">
+              <div class="chartLabel">
+                <strong>SHYPEUSD · 1h · Jupiter route</strong>
+                <span>71,144 0,97000 (+1,38%)</span>
+              </div>
+              <svg class="candles" viewBox="0 0 520 290" role="img" aria-label="Candlestick preview">
+                <path class="gridLine" d="M0 40H520M0 100H520M0 160H520M0 220H520M90 0V290M250 0V290M410 0V290" />
+                <path class="priceLine" d="M0 82H520" />
+                <g class="green">
+                  <rect x="56" y="180" width="8" height="28" rx="1"/><line x1="60" y1="166" x2="60" y2="216"/>
+                  <rect x="84" y="150" width="8" height="45" rx="1"/><line x1="88" y1="138" x2="88" y2="204"/>
+                  <rect x="116" y="132" width="8" height="39" rx="1"/><line x1="120" y1="121" x2="120" y2="183"/>
+                  <rect x="176" y="116" width="8" height="50" rx="1"/><line x1="180" y1="106" x2="180" y2="178"/>
+                  <rect x="212" y="96" width="8" height="41" rx="1"/><line x1="216" y1="82" x2="216" y2="149"/>
+                  <rect x="292" y="118" width="8" height="40" rx="1"/><line x1="296" y1="106" x2="296" y2="169"/>
+                  <rect x="328" y="103" width="8" height="38" rx="1"/><line x1="332" y1="88" x2="332" y2="151"/>
+                  <rect x="368" y="76" width="8" height="48" rx="1"/><line x1="372" y1="62" x2="372" y2="139"/>
+                  <rect x="404" y="48" width="9" height="44" rx="1"/><line x1="408" y1="33" x2="408" y2="107"/>
+                </g>
+                <g class="red">
+                  <rect x="142" y="142" width="8" height="42" rx="1"/><line x1="146" y1="126" x2="146" y2="197"/>
+                  <rect x="242" y="104" width="8" height="52" rx="1"/><line x1="246" y1="91" x2="246" y2="169"/>
+                  <rect x="264" y="129" width="8" height="36" rx="1"/><line x1="268" y1="118" x2="268" y2="178"/>
+                  <rect x="438" y="54" width="8" height="30" rx="1"/><line x1="442" y1="39" x2="442" y2="96"/>
+                </g>
+                <polyline class="volume" points="20,260 55,249 90,270 120,236 150,268 180,226 214,250 246,235 270,265 300,244 332,258 372,222 408,200 444,252" />
+              </svg>
+              <span class="priceTag">71,144</span>
+            </div>
+          </section>
+
+          <aside class="tradeCard">
+            <div class="tradeMode">
+              <button class="active" type="button">Buy / Long</button>
+              <button type="button">Sell / Short</button>
+            </div>
+            <div class="formRow"><span>Market</span><strong>Cross · 10x</strong></div>
+            <label class="fieldLabel">Size <input type="text" inputmode="decimal" placeholder="0.00" /></label>
+            <div class="sliderTrack"><span></span><span></span><span></span><span></span></div>
+            <label class="checkLine"><input type="checkbox" /> Reduce Only</label>
+            <label class="checkLine"><input type="checkbox" /> Take Profit / Stop Loss</label>
+            <div class="tradeStats">
+              <div><span>Liquidation Price</span><strong>N/A</strong></div>
+              <div><span>Margin Required</span><strong>N/A</strong></div>
+              <div><span>Route</span><strong>Jupiter Perps</strong></div>
+            </div>
+            <button class="wideButton" type="button">Connect</button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="terminalView" data-panel="markets">
+        <div class="screenHeader">
+          <h1>Markets</h1>
+          <p>Solana-first markets prepared for SHYPE perps routing.</p>
+        </div>
+        <div class="marketSearch">
+          <input type="search" placeholder="Search" />
+          <button class="active" type="button">Strict</button>
+          <button type="button">All</button>
+        </div>
+        <div class="marketFilters">
+          <button class="active" type="button">All</button><button type="button">Perps</button><button type="button">Spot</button><button type="button">Solana</button>
+        </div>
+        <div class="marketList">
+          <button class="marketRow" type="button" data-pair="SOL-USDC"><span>☆</span><strong>SOL-USDC<small>20x · Jupiter route</small></strong><em>$87.2 Mio.</em><b>81,917<i class="down">-1.33%</i></b></button>
+          <button class="marketRow" type="button" data-pair="BTC-USDC"><span>☆</span><strong>BTC-USDC<small>40x · Perp</small></strong><em>$1.03 Mrd.</em><b>73,615<i class="down">-0.48%</i></b></button>
+          <button class="marketRow" type="button" data-pair="ETH-USDC"><span>☆</span><strong>ETH-USDC<small>25x · Perp</small></strong><em>$333 Mio.</em><b>2,006<i class="down">-1.17%</i></b></button>
+          <button class="marketRow" type="button" data-pair="JUP-USDC"><span>☆</span><strong>JUP-USDC<small>10x · Solana</small></strong><em>$42.8 Mio.</em><b>0.624<i>+2.41%</i></b></button>
+          <button class="marketRow" type="button" data-pair="WIF-USDC"><span>☆</span><strong>WIF-USDC<small>10x · Solana</small></strong><em>$31.4 Mio.</em><b>0.781<i>+4.02%</i></b></button>
+          <button class="marketRow" type="button" data-pair="BONK-USDC"><span>☆</span><strong>BONK-USDC<small>5x · Solana</small></strong><em>$18.9 Mio.</em><b>0.000014<i>+3.18%</i></b></button>
+        </div>
+      </section>
+
+      <section class="terminalView" data-panel="portfolio">
+        <div class="screenHeader"><h1>Portfolio</h1><p>Balances, open positions, orders and trade history.</p></div>
+        <div class="accountCard">
+          <h2>Account Equity</h2>
+          <div><span>Spot</span><strong>$0.00</strong></div>
+          <div><span>Perps</span><strong>$0.00</strong></div>
+          <hr />
+          <h2>Perps Overview</h2>
+          <div><span>Balance</span><strong>$0.00</strong></div>
+          <div><span>Unrealized PNL</span><strong>$0.00</strong></div>
+          <div><span>Cross Margin Ratio</span><strong class="accent">0.00%</strong></div>
+          <div><span>Cross Account Leverage</span><strong>0.00x</strong></div>
+          <button class="wideButton" type="button">Deposit</button>
+        </div>
+      </section>
+
+      <section class="terminalView" data-panel="account">
+        <div class="screenHeader"><h1>Account</h1><p>Connect a Solana wallet to view balances and manage permissions.</p></div>
+        <div class="accountCard compact">
+          <h2>Wallet</h2>
+          <p>No wallet connected.</p>
+          <button class="wideButton" type="button">Connect Wallet</button>
+        </div>
+      </section>
+
+      <section class="terminalView simpleView" data-panel="earn"><h1>Earn</h1><p>Earn modules and routing rewards will be added after protocol review.</p></section>
+      <section class="terminalView simpleView" data-panel="vault"><h1>Vault</h1><p>Future SHYPE fee-flow and vault transparency dashboard.</p></section>
+      <section class="terminalView simpleView" data-panel="leaderboard"><h1>Leaderboard</h1><p>Community rankings and trading competitions will live here.</p></section>
+      <section class="terminalView simpleView" data-panel="referrals"><h1>Referrals</h1><p>Referral tracking is reserved for a later version.</p></section>
+      <section class="terminalView simpleView" data-panel="launch"><h1>Launch</h1><p>Create and manage Solana token launches from the SHYPE terminal.</p></section>
+    </main>
+
+    <nav class="bottomNav" aria-label="Primary app navigation">
+      <button class="bottomItem active" type="button" data-view="markets"><span class="bars"></span>Markets</button>
+      <button class="bottomItem" type="button" data-view="trade"><span class="tradeGlyph"></span>Trade</button>
+      <button class="bottomItem" type="button" data-view="account"><span class="accountGlyph"></span>Account</button>
+    </nav>
+  </div>
+
+  <script src="app.js?v=20260531-31"></script>
 </body>
 </html>
