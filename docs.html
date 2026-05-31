@@ -2,44 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>SHYPE Documents</title>
-  <meta name="theme-color" content="#03101a" />
-  <link rel="icon" href="IMG_2365.png?v=11" />
-  <link rel="stylesheet" href="landing.css?v=20260531-11" />
+  <meta name="theme-color" content="#061923" />
+  <link rel="icon" href="IMG_2365.png?v=22" />
+  <link rel="stylesheet" href="legal.css?v=20260531-22" />
 </head>
 <body>
-  <main class="legalPage">
-    <article class="legalCard">
-      <a class="backLink" href="index.html">← Back to SHYPE</a>
+  <main class="legalShell">
+    <div class="legalTop">
+      <a class="legalBrand" href="index.html"><img src="IMG_2365.png?v=22" alt="SHYPE" /><span>SHYPE</span></a>
+      <a class="backLink" href="index.html">Back to site</a>
+    </div>
+
+    <article class="legalDoc">
       <h1>Documents</h1>
-      <p>SHYPE is being built as a Solana-native app interface for token launches, swap routing, perps access, and transparent fee-flow experiments.</p>
+      <p class="legalDate">Project notes for the SHYPE interface</p>
+
+      <p>SHYPE is a Solana-first interface for launching tokens, routing swaps, accessing perps venues, and keeping fee flows visible. The goal is a clean terminal, not a custodial exchange.</p>
 
       <h2>Current status</h2>
-      <p>The project is currently a static GitHub Pages interface. Wallet actions must be signed by the user. SHYPE does not custody funds, request seed phrases, or show fake balances.</p>
+      <p>The public site is a GitHub Pages interface. Some modules are previews or drafts until official protocol integrations, wallet flows, and mainnet checks are completed. SHYPE does not custody funds or request seed phrases.</p>
 
-      <h2>App modules</h2>
+      <h2>Core modules</h2>
       <ul>
-        <li><strong>Launch:</strong> prepare token metadata, links, image, and routing model before handoff to a launch venue.</li>
-        <li><strong>Swap:</strong> route token quotes through Jupiter-compatible infrastructure inside a SHYPE-styled interface.</li>
-        <li><strong>Perps:</strong> prepare venue, market, collateral, and leverage context for future supported venue adapters.</li>
-        <li><strong>Vault:</strong> show the intended fee-routing model before real vault accounts are deployed.</li>
+        <li><strong>Launch:</strong> create token drafts from the terminal with name, ticker, image, website, socials, and community metadata.</li>
+        <li><strong>Swap:</strong> prepare a SHYPE-styled routing screen for Solana token swaps through supported route providers.</li>
+        <li><strong>Perps:</strong> design a venue-based trading surface for supported markets such as SOL, BTC, and ETH pairs.</li>
+        <li><strong>Vault:</strong> show future fee-routing logic before any real vault accounts or automated distribution is deployed.</li>
       </ul>
 
-      <h2>Fee-routing draft</h2>
-      <ul>
-        <li>40% SHYPE main-token route.</li>
-        <li>25% launch liquidity support.</li>
-        <li>25% event or community voting pool.</li>
-        <li>10% operations treasury.</li>
-      </ul>
+      <h2>Fee-flow draft</h2>
+      <p>The long-term model is to make fees transparent before they move anywhere. Routes may include main-token support, launch liquidity, event-based community pools, and operations. Any live routing needs technical, legal, and security review first.</p>
 
       <h2>Repository</h2>
-      <p>The public repository is available here: <a href="https://github.com/airscentes-del/shype" target="_blank" rel="noopener">GitHub / airscences-del / shype</a>.</p>
+      <p>The public repository is available here: <a href="https://github.com/airscentes-del/shype" target="_blank" rel="noopener">github.com/airscentes-del/shype</a>.</p>
 
       <h2>Important note</h2>
-      <p>This document is informational and not financial advice. Any future token launch, swap, or perps execution must be reviewed and tested before mainnet use.</p>
+      <p>These documents are informational. They are not financial, legal, tax, or investment advice. Features described here may change before production.</p>
     </article>
+
+    <footer class="legalFooter">
+      <a href="index.html">SHYPE</a>
+      <a href="terms.html">Terms of Use</a>
+      <a href="privacy.html">Privacy</a>
+    </footer>
   </main>
 </body>
 </html>
