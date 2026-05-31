@@ -36,9 +36,9 @@
 }
 .featureIcon:after{content:none;}
 
-.icon-perps{--feature-icon:url('assets/feature-perps.svg?v=28');}
-.icon-launch{--feature-icon:url('assets/feature-launch.svg?v=28');}
-.icon-close{--feature-icon:url('assets/feature-close.svg?v=28');}
+.icon-perps{--feature-icon:url('assets/feature-perps.svg?v=29');}
+.icon-launch{--feature-icon:url('assets/feature-launch.svg?v=29');}
+.icon-close{--feature-icon:url('assets/feature-close.svg?v=29');}
 
 .featureItem h3{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.02;letter-spacing:-.04em;margin:0 0 8px;}
 .featureItem p{font-size:17px;line-height:1.28;margin:0;color:#12313f;max-width:540px;}
