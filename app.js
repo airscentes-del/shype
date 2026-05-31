@@ -28,6 +28,16 @@ const connectButtons = document.querySelectorAll('.connectWallet, .primaryWide')
 const toast = document.querySelector('#toast');
 const emptyMarketState = document.querySelector('#emptyMarketState');
 
+const starTweakStyle = document.createElement('style');
+starTweakStyle.textContent = `
+  .marketTableHead,.marketRow{grid-template-columns:28px minmax(0,1fr) 95px 94px!important;gap:3px!important}
+  .starButton{width:22px!important;height:38px!important;font-size:18px!important;margin-left:3px!important;margin-right:-3px!important;transform:translateX(4px) scale(.96);font-family:"Arial Rounded MT Bold","SF Pro Rounded",ui-rounded,system-ui,sans-serif!important;font-weight:600!important;opacity:.9!important}
+  .starButton.active{opacity:1!important}
+  @media(max-width:760px){.marketTableHead,.marketRow{grid-template-columns:28px minmax(0,1fr) 86px 90px!important}.starButton{transform:translateX(5px) scale(.94)}}
+  @media(max-width:420px){.marketTableHead,.marketRow{grid-template-columns:27px minmax(0,1fr) 78px 78px!important}.starButton{width:21px!important;font-size:17px!important;transform:translateX(5px) scale(.93)}}
+`;
+document.head.appendChild(starTweakStyle);
+
 let activeMarket = Array.from(marketRows).find(row => row.dataset.kind === 'perps' && row.dataset.symbol === 'SOL-USDC') || marketRows[0] || null;
 let activeMarketFilter = 'all';
 let activePositionFilter = 'all';
