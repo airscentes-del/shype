@@ -1,57 +1,50 @@
 import Link from 'next/link';
 
 const status = [
-  ['Token', 'Not launched'],
-  ['Execution', 'Wallet signed'],
-  ['Custody', 'None'],
-  ['Fee accounts', 'Inactive']
+  ['Network', 'Solana'],
+  ['Wallet', 'User signed'],
+  ['Token', 'Pre-launch'],
+  ['Custody', 'None']
+];
+
+const flows = [
+  ['Swap', 'Jupiter terminal embedded in-app.', '/swap'],
+  ['Perps', 'Venue routing now. Deeper integration next.', '/perps'],
+  ['Launch', 'Submit Pump.fun mints for SHYPE profiles.', '/launch'],
+  ['Vault', 'Routing model without fake balances.', '/vault']
 ];
 
 export default function OverviewPage() {
   return (
-    <section className="screen overviewScreen">
-      <div className="heroPanel">
-        <div className="heroText">
-          <p className="eyebrow">Solana interface</p>
-          <h1>Trade infrastructure before the token.</h1>
-          <p className="leadText">
-            SHYPE is being rebuilt as an app, not a landing page: swap routing, perps access, launch submission, stake-to-support and transparent fee routing in separate screens.
-          </p>
+    <section className="screen">
+      <div className="dashboardHero">
+        <div className="heroCopy">
+          <p className="eyebrow">SHYPE terminal</p>
+          <h1>Solana meme trading, routed through one interface.</h1>
+          <p className="leadText">Swap in-app, route perps, submit launches and keep fee routing transparent. No fake charts. No fake activity. Wallet-signed execution only.</p>
           <div className="actionRow">
             <Link className="primaryAction" href="/swap">Open swap</Link>
-            <Link className="secondaryAction" href="/perps">Open perps</Link>
+            <Link className="secondaryAction" href="/launch">Submit launch</Link>
           </div>
         </div>
-        <div className="heroMark">
-          <img src="https://raw.githubusercontent.com/airscentes-del/shype/main/IMG_2365.png" alt="SHYPE" />
+        <div className="signalPanel">
+          {status.map(([label, value]) => (
+            <div key={label}>
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="statusGrid">
-        {status.map(([label, value]) => (
-          <div className="statBox" key={label}>
-            <span>{label}</span>
-            <strong>{value}</strong>
-          </div>
+      <div className="flowGrid">
+        {flows.map(([title, text, href], index) => (
+          <Link className="flowCard" href={href} key={title}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <h2>{title}</h2>
+            <p>{text}</p>
+          </Link>
         ))}
-      </div>
-
-      <div className="moduleGrid threeCols">
-        <article className="moduleCard">
-          <span className="moduleIndex">01</span>
-          <h2>Swap</h2>
-          <p>Quote and route token swaps through Jupiter. Execution is wallet-signed and non-custodial.</p>
-        </article>
-        <article className="moduleCard">
-          <span className="moduleIndex">02</span>
-          <h2>Perps</h2>
-          <p>Route users to established perps venues instead of pretending SHYPE runs its own leverage engine.</p>
-        </article>
-        <article className="moduleCard">
-          <span className="moduleIndex">03</span>
-          <h2>Vault</h2>
-          <p>Show fee routing only when real fee accounts exist. No fake balances, no fake revenue.</p>
-        </article>
       </div>
     </section>
   );
