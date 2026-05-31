@@ -1,0 +1,105 @@
+.tradeTicket{
+  padding:22px 18px 18px!important;
+  background:#071722!important;
+  border-top:1px solid rgba(168,206,224,.18)!important;
+  border-bottom:1px solid var(--line-strong)!important;
+}
+.ticketHead{
+  align-items:flex-start!important;
+  margin-bottom:24px!important;
+}
+.ticketHead span{
+  font-size:13px!important;
+  letter-spacing:.01em;
+  color:var(--muted)!important;
+}
+.ticketHead strong{
+  font-size:23px!important;
+  line-height:1.05!important;
+  font-weight:440!important;
+  letter-spacing:-.045em!important;
+}
+.ticketType{
+  font-size:15px!important;
+  line-height:1!important;
+  border-radius:999px!important;
+  padding:8px 19px!important;
+  border:1px solid rgba(69,201,255,.48)!important;
+  background:rgba(69,201,255,.075)!important;
+  color:#8edfff!important;
+  text-transform:none!important;
+}
+.amountField{
+  gap:13px!important;
+  margin-bottom:16px!important;
+  color:var(--muted)!important;
+  font-size:16px!important;
+}
+.amountField span{font-size:16px!important;}
+.amountField input{
+  min-height:58px!important;
+  border-radius:14px!important;
+  background:#071722!important;
+  border:1px solid rgba(168,206,224,.26)!important;
+  color:var(--text)!important;
+  padding:0 24px!important;
+  font-size:17px!important;
+}
+.buyButton{
+  min-height:60px!important;
+  border-radius:14px!important;
+  background:linear-gradient(135deg,#8beaff,#54c4f7)!important;
+  color:#071722!important;
+  font-size:21px!important;
+  font-weight:560!important;
+  letter-spacing:-.02em!important;
+}
+.ticketNote{
+  font-size:15px!important;
+  line-height:1.45!important;
+  margin:14px 0 2px!important;
+  color:var(--muted)!important;
+}
+.accountTabs{
+  justify-content:space-between!important;
+  gap:0!important;
+  padding:0 18px!important;
+}
+.accountTabs button{
+  font-size:17px!important;
+  min-height:58px!important;
+  padding:0 11px!important;
+}
+.positionTabs{
+  gap:34px!important;
+  padding:0 18px!important;
+}
+.positionTabs button{
+  font-size:16px!important;
+  min-height:50px!important;
+}
+.positionList{padding:0 18px 20px!important;}
+.emptyState{
+  min-height:136px!important;
+  padding:20px 0!important;
+  font-size:18px!important;
+}
+.emptyState button{
+  min-height:54px!important;
+  border-radius:14px!important;
+  font-size:18px!important;
+  padding:0 22px!important;
+}
+@media(min-width:940px){
+  .tradeTicket{display:block!important;max-width:760px!important;}
+  .ticketNote{grid-column:auto!important;}
+}
+@media(max-width:420px){
+  .tradeTicket{padding:20px 18px 17px!important;}
+  .ticketHead strong{font-size:22px!important;}
+  .buyButton{min-height:58px!important;}
+  .accountTabs button{font-size:16px!important;padding:0 10px!important;}
+  .positionTabs{gap:30px!important;}
+  .emptyState{font-size:17px!important;}
+  .emptyState button{font-size:17px!important;padding:0 18px!important;}
+}
