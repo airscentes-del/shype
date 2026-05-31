@@ -177,6 +177,22 @@ if (addToken) {
   });
 }
 
+const prepareLaunch = document.getElementById('prepareLaunch');
+if (prepareLaunch) {
+  prepareLaunch.addEventListener('click', () => {
+    const name = document.getElementById('launchName')?.value.trim();
+    const ticker = document.getElementById('launchTicker')?.value.trim().toUpperCase();
+    const supply = document.getElementById('launchSupply')?.value.trim();
+    const mode = document.getElementById('launchEvent')?.value || 'main';
+    const result = document.getElementById('launchResult');
+    if (!connectedWallet) { result.textContent = 'Connect wallet first to prepare a launch.'; result.style.color = '#ff6675'; return; }
+    if (!name || !ticker || !supply) { result.textContent = 'Add token name, ticker and supply.'; result.style.color = '#ff6675'; return; }
+    const modeText = mode === 'main' ? 'main route' : mode === 'vote' ? 'community vote route' : 'event winner route';
+    result.textContent = `${name} (${ticker}) prepared with ${modeText}. Real mint transaction builder comes next.`;
+    result.style.color = '#64f4cc';
+  });
+}
+
 const preparePerps = document.getElementById('preparePerps');
 if (preparePerps) {
   preparePerps.addEventListener('click', () => {
