@@ -22,7 +22,7 @@
   height:82px;
   display:grid;
   place-items:center;
-  color:rgba(6,68,96,.34);
+  color:rgba(80,122,135,.50);
   position:relative;
 }
 .featureIcon:before{
@@ -36,9 +36,9 @@
 }
 .featureIcon:after{content:none;}
 
-.icon-perps{--feature-icon:url('assets/feature-perps.svg?v=26');}
-.icon-launch{--feature-icon:url('assets/feature-launch.svg?v=26');}
-.icon-close{--feature-icon:url('assets/feature-close.svg?v=26');}
+.icon-perps{--feature-icon:url('assets/feature-perps.svg?v=27');}
+.icon-launch{--feature-icon:url('assets/feature-launch.svg?v=27');}
+.icon-close{--feature-icon:url('assets/feature-close.svg?v=27');}
 
 .featureItem h3{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.02;letter-spacing:-.04em;margin:0 0 8px;}
 .featureItem p{font-size:17px;line-height:1.28;margin:0;color:#12313f;max-width:540px;}
@@ -46,4 +46,4 @@
 .sectionDark{display:none;}
 
 @media (min-width:761px) and (max-width:1100px){.phoneStage{height:430px;}.phoneImage{width:min(560px,74vw);}}
-@media(max-width:760px){.appShowcase{padding-top:74px;}.appShowcase h2{font-size:36px;margin-bottom:30px;}.phoneStage{height:329px;}.phoneImage{width:min(430px,96vw);margin-top:-4px;}.featureBand{background:linear-gradient(180deg,#ddf9ff 0%,#d8f4ff 100%);padding:40px 24px 58px;}.featureItem{grid-template-columns:70px 1fr;gap:18px;padding:26px 0;}.featureIcon{width:60px;height:60px;color:rgba(6,68,96,.32);}.featureItem h3{font-size:28px;}.featureItem p{font-size:16px;}.appShowcaseActions{display:grid;grid-template-columns:1fr;max-width:310px;margin:28px auto 0;}}
+@media(max-width:760px){.appShowcase{padding-top:74px;}.appShowcase h2{font-size:36px;margin-bottom:30px;}.phoneStage{height:329px;}.phoneImage{width:min(430px,96vw);margin-top:-4px;}.featureBand{background:linear-gradient(180deg,#ddf9ff 0%,#d8f4ff 100%);padding:40px 24px 58px;}.featureItem{grid-template-columns:70px 1fr;gap:18px;padding:26px 0;}.featureIcon{width:60px;height:60px;color:rgba(80,122,135,.48);}.featureItem h3{font-size:28px;}.featureItem p{font-size:16px;}.appShowcaseActions{display:grid;grid-template-columns:1fr;max-width:310px;margin:28px auto 0;}}
