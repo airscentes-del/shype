@@ -1,23 +1,23 @@
+import JupiterTerminal from '../../components/JupiterTerminal';
+
 export default function SwapPage() {
   return (
     <section className="screen">
       <div className="screenHead">
         <p className="eyebrow">Swap</p>
-        <h1>Swap through Jupiter</h1>
-        <p>SHYPE will use Jupiter for real Solana swaps. For this build, the in-app ticket is prepared and execution is routed to Jupiter until wallet transaction building is added.</p>
+        <h1>Swap inside SHYPE</h1>
+        <p>Wallet-signed Jupiter swaps embedded directly in the SHYPE app. Users keep custody and confirm transactions in their own wallet.</p>
       </div>
 
-      <div className="tradeGrid">
-        <article className="tradeTicket">
-          <label>From<div className="inputGroup"><input value="SOL" readOnly /><input placeholder="0.00" /></div></label>
-          <label>To<div className="inputGroup"><input value="USDC" readOnly /><input placeholder="Quote output" readOnly /></div></label>
-          <a className="primaryAction fullWidth" href="https://jup.ag/swap/SOL-USDC" target="_blank" rel="noreferrer">Open Jupiter swap</a>
+      <div className="tradeGrid swapTerminalGrid">
+        <article className="tradeTicket terminalTicket">
+          <JupiterTerminal />
         </article>
 
         <aside className="moduleCard tallCard">
-          <h2>Production path</h2>
-          <p>Next step: connect wallet, request Jupiter quotes, build the swap transaction, and let the user sign it. Supported integrator fees can route to a SHYPE fee account later.</p>
-          <ul><li>User signs every transaction.</li><li>SHYPE never holds swap funds.</li><li>No fake balances or fills.</li></ul>
+          <h2>Live swap module</h2>
+          <p>This is not a redirect card. The Jupiter terminal is loaded inside SHYPE and connects to the user wallet for signing.</p>
+          <ul><li>Jupiter handles routing.</li><li>User signs in wallet.</li><li>SHYPE does not custody funds.</li><li>Integrator fee routing can be added later.</li></ul>
         </aside>
       </div>
     </section>
