@@ -1,0 +1,123 @@
+/* Final landing polish: smoother Hyper-style menu, larger logo accents, no huge footer wordmark */
+.landingHeader {
+  position: fixed !important;
+  z-index: 40 !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.landingBrand img {
+  width: 48px !important;
+  height: 32px !important;
+}
+
+.heroLogo {
+  width: 88px !important;
+  height: auto !important;
+}
+
+.landingMenu {
+  position: fixed !important;
+  z-index: 35 !important;
+  display: block !important;
+  overflow: hidden !important;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  max-height: 60px;
+  transform: translateX(-50%) scaleY(.96);
+  transform-origin: top center;
+  transition:
+    max-height .58s cubic-bezier(.19,1,.22,1),
+    opacity .24s ease,
+    transform .58s cubic-bezier(.19,1,.22,1),
+    visibility 0s linear .58s;
+}
+
+.landingMenu.open {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  max-height: 370px;
+  transform: translateX(-50%) scaleY(1);
+  transition:
+    max-height .64s cubic-bezier(.19,1,.22,1),
+    opacity .18s ease,
+    transform .64s cubic-bezier(.19,1,.22,1),
+    visibility 0s;
+}
+
+.landingMenu a {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity .28s ease, transform .34s cubic-bezier(.19,1,.22,1);
+}
+
+.landingMenu.open a {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.landingMenu.open a:nth-child(1) { transition-delay: .04s; }
+.landingMenu.open a:nth-child(2) { transition-delay: .08s; }
+.landingMenu.open a:nth-child(3) { transition-delay: .12s; }
+.landingMenu.open a:nth-child(4) { transition-delay: .16s; }
+
+.footerWord {
+  display: none !important;
+}
+
+.community {
+  padding-bottom: 92px !important;
+}
+
+@media (max-width: 760px) {
+  .landingHeader {
+    height: 52px !important;
+    top: 18px !important;
+    width: calc(100% - 56px) !important;
+    padding: 0 14px !important;
+  }
+
+  .landingBrand {
+    gap: 13px !important;
+    font-size: 21px !important;
+  }
+
+  .landingBrand img {
+    width: 38px !important;
+    height: 26px !important;
+  }
+
+  .menuButton {
+    font-size: 25px !important;
+    padding: 4px 6px !important;
+  }
+
+  .landingMenu {
+    top: 18px !important;
+    width: calc(100% - 56px) !important;
+    padding-top: 52px !important;
+    border-radius: 26px !important;
+    max-height: 52px;
+  }
+
+  .landingMenu.open {
+    max-height: 360px;
+  }
+
+  .landingMenu a {
+    padding: 15px 24px !important;
+    font-size: 19px !important;
+    line-height: 1.15 !important;
+  }
+
+  .heroLogo {
+    width: 68px !important;
+    margin-bottom: 36px !important;
+  }
+
+  .community {
+    padding-bottom: 72px !important;
+  }
+}
