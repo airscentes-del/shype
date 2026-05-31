@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+const logoUrl = 'https://raw.githubusercontent.com/airscentes-del/shype/main/IMG_2365.png';
 const items = [['/', 'Overview'], ['/swap', 'Swap'], ['/perps', 'Perps'], ['/stake', 'Stake'], ['/launch', 'Launch'], ['/vault', 'Vault']];
 
 export default function Navigation() {
@@ -10,7 +11,7 @@ export default function Navigation() {
   return (
     <header className="appHeader">
       <Link className="brand" href="/">
-        <img src="/IMG_2365.png" alt="SHYPE" />
+        <img src={logoUrl} alt="SHYPE" />
         <span>SHYPE</span>
       </Link>
       <nav className="navRail">
