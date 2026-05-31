@@ -1,4 +1,5 @@
 import './globals.css';
+import Navigation from '../components/Navigation';
 
 export const metadata = {
   title: 'SHYPE — Solana Interface',
@@ -8,7 +9,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Navigation />
+        <main className="appFrame">{children}</main>
+      </body>
     </html>
   );
 }
