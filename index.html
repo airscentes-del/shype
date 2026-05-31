@@ -3,57 +3,126 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SHYPE — Solana Trading Layer</title>
-  <meta name="description" content="SHYPE is a minimal Solana interface for launches, swaps, perps routing, staking concepts and transparent fee routing." />
+  <title>SHYPE — Solana Terminal</title>
+  <meta name="description" content="SHYPE is a compact Solana interface for swap routing, perps access, launch submissions, staking plans and vault transparency." />
   <meta name="theme-color" content="#050706" />
-  <meta property="og:title" content="SHYPE" />
-  <meta property="og:description" content="Launch. Swap. Long. Route fees." />
-  <meta property="og:type" content="website" />
   <link rel="icon" href="IMG_2365.png" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="override.css" />
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="SHYPE home"><img src="IMG_2365.png" alt="SHYPE logo" /><span>SHYPE</span></a>
-    <nav class="nav" aria-label="Main navigation">
-      <a href="#trade">Trade</a><a href="#swap">Swap</a><a href="#perps">Perps</a><a href="#stake">Stake</a><a href="#launch">Launch</a><a href="#vault">Vault</a>
+    <button class="brand" type="button" data-view="overview" aria-label="SHYPE home">
+      <img src="IMG_2365.png" alt="SHYPE" />
+      <span>SHYPE</span>
+    </button>
+
+    <nav class="nav" aria-label="App navigation">
+      <button class="navItem active" type="button" data-view="overview">Home</button>
+      <button class="navItem" type="button" data-view="swap">Swap</button>
+      <button class="navItem" type="button" data-view="perps">Perps</button>
+      <button class="navItem" type="button" data-view="stake">Stake</button>
+      <button class="navItem" type="button" data-view="launch">Launch</button>
+      <button class="navItem" type="button" data-view="vault">Vault</button>
     </nav>
-    <button class="wallet-button" id="walletButton" type="button">Connect Wallet</button>
+
+    <button class="walletButton" id="walletButton" type="button">Connect wallet</button>
   </header>
 
-  <main id="top">
-    <section class="hero">
-      <div class="hero-inner">
-        <img class="hero-logo" src="IMG_2365.png" alt="SHYPE logo" />
-        <p class="status">Pre-launch interface · Solana only · non-custodial</p>
-        <h1>SHYPE</h1>
-        <p class="lead">A minimal Solana trading layer for meme launches, swaps, external perps routing and transparent fee flow.</p>
-        <div class="actions"><a class="button primary" href="#trade">Open interface</a><a class="button secondary" href="#vault">Fee model</a></div>
+  <main class="appFrame">
+    <section class="view active" id="overview">
+      <div class="dashboardGrid">
+        <article class="mainPanel">
+          <p class="eyebrow">SHYPE terminal</p>
+          <h1>Solana meme trading, routed through one interface.</h1>
+          <p class="lead">A compact app surface for wallet-signed swaps, venue-based perps, launch submissions and transparent fee routing. No fake charts, no fake balances.</p>
+          <div class="actions">
+            <button class="primaryAction" type="button" data-view="swap">Open swap</button>
+            <button class="secondaryAction" type="button" data-view="launch">Submit launch</button>
+          </div>
+        </article>
+
+        <aside class="statusPanel">
+          <div><span>Network</span><strong>Solana</strong></div>
+          <div><span>Token</span><strong>Pre-launch</strong></div>
+          <div><span>Custody</span><strong>None</strong></div>
+          <div><span>Execution</span><strong>Wallet signed</strong></div>
+        </aside>
       </div>
-      <div class="system-strip"><div><span>Token</span><strong>Not launched</strong></div><div><span>Custody</span><strong>None</strong></div><div><span>Execution</span><strong>Wallet-signed</strong></div></div>
+
+      <div class="tileGrid">
+        <button class="tile" type="button" data-view="swap"><span>01</span><b>Swap</b><p>Jupiter terminal embedded inside SHYPE.</p></button>
+        <button class="tile" type="button" data-view="perps"><span>02</span><b>Perps</b><p>Perps desk prepared for venue SDK integration.</p></button>
+        <button class="tile" type="button" data-view="launch"><span>03</span><b>Launch</b><p>Submit Pump.fun mints for profile routing.</p></button>
+        <button class="tile" type="button" data-view="vault"><span>04</span><b>Vault</b><p>Fee routing model with no fake revenue.</p></button>
+      </div>
     </section>
 
-    <section class="app-shell" id="trade">
-      <div class="app-head"><div><p class="eyebrow">Interface</p><h2>Launch, swap, route perps and track the vault.</h2></div>
-        <div class="tabbar" role="tablist"><button class="tab active" data-panel="swapPanel">Swap</button><button class="tab" data-panel="perpsPanel">Perps</button><button class="tab" data-panel="stakePanel">Stake</button><button class="tab" data-panel="launchPanel">Launch</button><button class="tab" data-panel="vaultPanel">Vault</button></div>
+    <section class="view" id="swap">
+      <div class="screenHead">
+        <p class="eyebrow">Swap</p>
+        <h2>Swap inside SHYPE.</h2>
+        <p>Jupiter is loaded directly in this page. The user connects a wallet and signs transactions from their own wallet.</p>
       </div>
-
-      <section class="panel active" id="swapPanel"><div class="module-grid"><div class="module-card" id="swap"><p class="eyebrow">Swap</p><h3>Jupiter-routed swaps</h3><p class="soft">Prepared for Jupiter Swap integration. Until wallet routing is connected, this page does not create transactions.</p><div class="swap-box"><label>From<input value="SOL" readonly /></label><label>To<input placeholder="Token mint or symbol" /></label><label>Amount<input placeholder="0.00" inputmode="decimal" /></label><button class="button primary full" type="button" data-disabled-action>Connect wallet to quote</button></div></div><div class="module-card note"><h3>Fee path</h3><p>When swap routing is live, supported integrator fees can route to a SHYPE fee account and appear in the vault model.</p><ul><li>No custody of user funds</li><li>User signs every transaction</li><li>Fees only where protocol integration supports it</li></ul></div></div></section>
-
-      <section class="panel" id="perpsPanel"><div class="module-grid"><div class="module-card" id="perps"><p class="eyebrow">Perps</p><h3>External leverage routing</h3><p class="soft">Perps are not run by SHYPE. This interface can route users to existing Solana perp venues. Supported markets and leverage depend on the venue.</p><div class="market-list"><a href="https://jup.ag/perps" target="_blank" rel="noreferrer"><b>Jupiter Perps</b><span>Open external venue</span></a><a href="https://app.drift.trade" target="_blank" rel="noreferrer"><b>Drift</b><span>Open external venue</span></a></div></div><div class="module-card danger"><h3>Risk</h3><p>Leverage trading can liquidate collateral. SHYPE should show this clearly before routing any user into perps.</p><div class="risk-check"><input id="riskCheck" type="checkbox" /><label for="riskCheck">I understand perps can result in liquidation.</label></div></div></div></section>
-
-      <section class="panel" id="stakePanel"><div class="module-grid"><div class="module-card" id="stake"><p class="eyebrow">Stake</p><h3>Stake-to-support</h3><p class="soft">No APY is advertised. Future staking should be used for trust score, ranking, vault access and optional variable rewards from real activity.</p><div class="empty-state">Staking opens after SHYPE launch and contract review.</div></div><div class="module-card"><h3>Planned mechanics</h3><ul><li>Lock launched tokens to increase trust score</li><li>Unlock badges for community-locked launches</li><li>Variable claims only from real protocol fees</li></ul></div></div></section>
-
-      <section class="panel" id="launchPanel"><div class="module-grid"><div class="module-card" id="launch"><p class="eyebrow">Launch</p><h3>Pump.fun launch flow</h3><p class="soft">SHYPE can start as a launch index: creators launch externally, then submit the mint for a SHYPE profile, swap route and vault tracking.</p><div class="actions"><a class="button primary" href="https://pump.fun" target="_blank" rel="noreferrer">Launch on Pump.fun</a><button class="button secondary" type="button" data-disabled-action>Submit mint soon</button></div></div><div class="module-card"><h3>No fake launches</h3><p>This page does not pretend that SHYPE has already launched tokens. Profiles should appear only after real mints exist.</p></div></div></section>
-
-      <section class="panel" id="vaultPanel"><div class="module-grid"><div class="module-card" id="vault"><p class="eyebrow">Vault</p><h3>Fee routing model</h3><p class="soft">Inactive until SHYPE is live. The model shows how supported integrator fees could be routed transparently.</p><div class="pie-wrap"><div class="pie"></div><div class="pie-label"><b>0 SOL</b><span>active fees</span></div></div></div><div class="module-card"><div class="fee-row"><span>SHYPE buyback / burn</span><b>40%</b></div><div class="fee-row"><span>Liquidity support</span><b>25%</b></div><div class="fee-row"><span>Operations / treasury</span><b>25%</b></div><div class="fee-row"><span>Community vault</span><b>10%</b></div><p class="fine">No fees are currently collected by this frontend.</p></div></div></section>
+      <div class="contentGrid swapGrid">
+        <article class="terminalPanel">
+          <div id="jupiter-terminal" class="jupiterBox"><div class="loading">Loading Jupiter terminal…</div></div>
+        </article>
+        <aside class="sidePanel">
+          <h3>Execution model</h3>
+          <ul>
+            <li>Jupiter handles route discovery.</li>
+            <li>User signs in Phantom or another Solana wallet.</li>
+            <li>SHYPE does not hold user funds.</li>
+            <li>Integrator fees can be added later where supported.</li>
+          </ul>
+        </aside>
+      </div>
     </section>
 
-    <section class="info-grid"><article><p class="eyebrow">Principle</p><h3>Non-custodial</h3><p>SHYPE should never hold user collateral for trades. Users connect a wallet and sign transactions directly.</p></article><article><p class="eyebrow">Routing</p><h3>External liquidity</h3><p>Swaps and perps should use established Solana protocols instead of SHYPE running its own matching engine at launch.</p></article><article><p class="eyebrow">Status</p><h3>Pre-launch</h3><p>Token data, vault addresses and fee counters stay empty until the SHYPE token and real integrations exist.</p></article></section>
+    <section class="view" id="perps">
+      <div class="screenHead">
+        <p class="eyebrow">Perps</p>
+        <h2>Perps desk.</h2>
+        <p>This screen is kept inside SHYPE. Direct order execution needs a venue SDK/API integration before it can safely go live.</p>
+      </div>
+      <div class="contentGrid three">
+        <article class="card"><span class="tag">Venue</span><h3>Jupiter Perps</h3><p>Prepared for deeper Jupiter Perps routing. Until then, no fake positions are shown.</p><button class="secondaryAction full" type="button" data-soon>SDK integration required</button></article>
+        <article class="card"><span class="tag">Venue</span><h3>Drift</h3><p>Prepared for Drift SDK integration for real markets, margin and order flow.</p><button class="secondaryAction full" type="button" data-soon>SDK integration required</button></article>
+        <article class="card danger"><span class="tag red">Risk</span><h3>Liquidation risk</h3><p>Leverage can liquidate collateral. SHYPE will not simulate fake PnL or fake positions.</p><label class="check"><input type="checkbox" /> I understand the risk.</label></article>
+      </div>
+    </section>
+
+    <section class="view" id="stake">
+      <div class="screenHead"><p class="eyebrow">Stake</p><h2>Stake-to-support.</h2><p>No fake APY. This opens only after the SHYPE token and vault contracts are reviewed.</p></div>
+      <div class="contentGrid">
+        <article class="formPanel"><label>Token mint<input placeholder="Paste launched token mint" /></label><label>Amount<input placeholder="0.00" inputmode="decimal" /></label><button class="primaryAction full" type="button" data-soon>Staking not live yet</button></article>
+        <aside class="sidePanel"><h3>Purpose</h3><ul><li>Community lock badge.</li><li>Trust score for launched tokens.</li><li>Variable claims only from real fees.</li><li>No guaranteed return wording.</li></ul></aside>
+      </div>
+    </section>
+
+    <section class="view" id="launch">
+      <div class="screenHead"><p class="eyebrow">Launch</p><h2>Submit a launch.</h2><p>Launch externally first, then submit the mint for a SHYPE profile and routing.</p></div>
+      <div class="contentGrid">
+        <article class="formPanel"><label>Token name<input id="launchName" placeholder="Example: Frog Terminal" /></label><label>Ticker<input id="launchTicker" placeholder="FROG" /></label><label>Pump.fun URL or mint<input id="launchMint" placeholder="Paste URL or mint" /></label><button class="primaryAction full" id="checkLaunch" type="button">Check submission</button><p class="note" id="launchResult">Submissions are not stored yet.</p></article>
+        <aside class="sidePanel"><h3>Flow</h3><ol><li>Launch on Pump.fun.</li><li>Submit mint to SHYPE.</li><li>Add profile and swap route.</li><li>Enable vault tracking after real fee accounts exist.</li></ol></aside>
+      </div>
+    </section>
+
+    <section class="view" id="vault">
+      <div class="screenHead"><p class="eyebrow">Vault</p><h2>Fee routing model.</h2><p>No active fee collection yet. These values go live only after real fee accounts exist.</p></div>
+      <div class="contentGrid vaultGrid">
+        <article class="donutPanel"><div class="donut"><span>0 SOL<small>active</small></span></div></article>
+        <article class="feePanel">
+          <div><span>SHYPE buyback and burn</span><strong>40%</strong></div>
+          <div><span>Liquidity support</span><strong>25%</strong></div>
+          <div><span>Operations treasury</span><strong>25%</strong></div>
+          <div><span>Community vault</span><strong>10%</strong></div>
+          <p>No fake revenue. No fake buybacks.</p>
+        </article>
+      </div>
+    </section>
   </main>
 
-  <footer class="footer"><span>SHYPE</span><p>Frontend MVP. Not financial advice. No guaranteed rewards or returns.</p></footer>
   <script src="script.js"></script>
 </body>
 </html>
