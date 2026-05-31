@@ -6,8 +6,8 @@
   <title>SHYPE App</title>
   <meta name="description" content="SHYPE trading terminal for Solana spot markets, perps, portfolio and launch workflows." />
   <meta name="theme-color" content="#071722" />
-  <link rel="icon" href="IMG_2365.png?v=34" />
-  <link rel="stylesheet" href="app.css?v=20260531-34" />
+  <link rel="icon" href="IMG_2365.png?v=35" />
+  <link rel="stylesheet" href="app.css?v=20260531-35" />
 </head>
 <body>
   <div class="appShell">
@@ -17,7 +17,7 @@
           <span></span><span></span><span></span>
         </button>
         <a class="brandMark" href="index.html" aria-label="SHYPE home">
-          <img src="IMG_2365.png?v=34" alt="" />
+          <img src="IMG_2365.png?v=35" alt="" />
           <strong>SHYPE</strong>
         </a>
       </div>
@@ -26,7 +26,7 @@
 
     <div class="drawerOverlay" data-close-drawer></div>
     <aside class="mainDrawer" id="mainDrawer" aria-label="Main menu">
-      <div class="drawerBrand"><img src="IMG_2365.png?v=34" alt="" /><span>SHYPE</span></div>
+      <div class="drawerBrand"><img src="IMG_2365.png?v=35" alt="" /><span>SHYPE</span></div>
       <nav class="drawerNav">
         <button class="drawerLink active" type="button" data-view="trade">Trade</button>
         <button class="drawerLink" type="button" data-view="portfolio">Portfolio</button>
@@ -45,8 +45,8 @@
       <section class="appView active" data-panel="trade">
         <div class="marketHeader">
           <button class="marketIdentity" type="button" data-view="markets">
-            <img src="IMG_2365.png?v=34" alt="" />
-            <span><strong>SOL-PERP</strong><small>Solana perpetual · Jupiter route</small></span>
+            <img src="IMG_2365.png?v=35" alt="" />
+            <span><strong>SOL-PERP</strong><small>20x</small></span>
             <i>⌄</i>
           </button>
           <div class="marketNumbers">
@@ -78,7 +78,7 @@
         <section class="tradeTicket" aria-label="Trade ticket">
           <div class="ticketHead">
             <div><span>Selected</span><strong class="ticketSymbol">SOL-PERP</strong></div>
-            <em class="ticketType">Perps</em>
+            <em class="ticketType">Perps · 20x</em>
           </div>
           <label class="amountField">
             <span>Pay with SOL</span>
@@ -89,7 +89,13 @@
         </section>
 
         <section class="positionPanel">
-          <nav class="positionTabs" aria-label="Position tabs">
+          <nav class="accountTabs" aria-label="Account tabs">
+            <button type="button">Balances</button>
+            <button class="active" type="button">Positions</button>
+            <button type="button">Open Orders</button>
+            <button type="button">History</button>
+          </nav>
+          <nav class="positionTabs" aria-label="Position filters">
             <button class="active" type="button" data-position-filter="all">All</button>
             <button type="button" data-position-filter="spot">Spot</button>
             <button type="button" data-position-filter="perps">Perps</button>
@@ -101,30 +107,69 @@
       </section>
 
       <section class="appView" data-panel="markets">
-        <div class="pageHead compactHead">
-          <h1>Markets</h1>
-          <p>Spot assets you can route from SOL, plus perps prepared for Jupiter leverage.</p>
-        </div>
         <div class="marketSearch">
-          <input type="search" placeholder="Search markets" id="marketSearch" />
+          <input type="search" placeholder="Search" id="marketSearch" />
         </div>
         <nav class="marketModeTabs" aria-label="Market type">
+          <button type="button" data-market-filter="favorites">Favorites</button>
           <button class="active" type="button" data-market-filter="all">All</button>
           <button type="button" data-market-filter="spot">Spot</button>
           <button type="button" data-market-filter="perps">Perps</button>
         </nav>
+        <div class="marketTableHead" aria-hidden="true"><span>Symbol</span><span>Volume</span><span>Last Price<br />24h Change</span></div>
         <div class="marketTable" aria-label="Markets list">
-          <button class="marketRow" type="button" data-kind="spot" data-symbol="HYPE" data-sub="Buy with SOL · Spot" data-price="$61.13" data-price-value="61.13" data-change="+5.92%" data-change-percent="5.92" data-chart-symbol="BITGET%3AHYPEUSDT" data-chart-title="HYPE / USDT" data-tv-url="https://www.tradingview.com/symbols/HYPEUSDT/"><span>HYPE<small>Spot · pay with SOL</small></span><b>$61.13</b><em>+5.92%</em></button>
-          <button class="marketRow" type="button" data-kind="spot" data-symbol="BTC" data-sub="Buy with SOL · Spot" data-price="$63,202.23" data-price-value="63202.23" data-change="-0.15%" data-change-percent="-0.15" data-chart-symbol="BINANCE%3ABTCUSDT" data-chart-title="BTC / USDT" data-tv-url="https://www.tradingview.com/symbols/BTCUSDT/"><span>BTC<small>Spot · pay with SOL</small></span><b>$63,202.23</b><em class="down">-0.15%</em></button>
-          <button class="marketRow" type="button" data-kind="spot" data-symbol="ETH" data-sub="Buy with SOL · Spot" data-price="$2,006.80" data-price-value="2006.8" data-change="-0.71%" data-change-percent="-0.71" data-chart-symbol="BINANCE%3AETHUSDT" data-chart-title="ETH / USDT" data-tv-url="https://www.tradingview.com/symbols/ETHUSDT/"><span>ETH<small>Spot · pay with SOL</small></span><b>$2,006.80</b><em class="down">-0.71%</em></button>
-          <button class="marketRow" type="button" data-kind="spot" data-symbol="SOL" data-sub="Native Solana · Spot" data-price="$172.84" data-price-value="172.84" data-change="+6.23%" data-change-percent="6.23" data-chart-symbol="BINANCE%3ASOLUSDT" data-chart-title="SOL / USDT" data-tv-url="https://www.tradingview.com/symbols/SOLUSDT/"><span>SOL<small>Spot · native asset</small></span><b>$172.84</b><em>+6.23%</em></button>
-          <button class="marketRow" type="button" data-kind="spot" data-symbol="USDC" data-sub="Stablecoin route · Spot" data-price="$1.00" data-price-value="1" data-change="+0.01%" data-change-percent="0.01" data-chart-symbol="COINBASE%3AUSDCUSD" data-chart-title="USDC / USD" data-tv-url="https://www.tradingview.com/symbols/USDCUSD/"><span>USDC<small>Spot · stablecoin</small></span><b>$1.00</b><em>+0.01%</em></button>
-          <button class="marketRow" type="button" data-kind="spot" data-symbol="USDT" data-sub="Stablecoin route · Spot" data-price="$1.00" data-price-value="1" data-change="+0.00%" data-change-percent="0" data-chart-symbol="CRYPTO%3AUSDTUSD" data-chart-title="USDT / USD" data-tv-url="https://www.tradingview.com/symbols/USDTUSD/"><span>USDT<small>Spot · stablecoin</small></span><b>$1.00</b><em>+0.00%</em></button>
-          <button class="marketRow" type="button" data-kind="perps" data-symbol="HYPE-PERP" data-sub="Hyperliquid perpetual · Jupiter route" data-price="$71.69" data-price-value="71.69" data-change="+6.38%" data-change-percent="6.38" data-chart-symbol="BITGET%3AHYPEUSDT" data-chart-title="HYPE / USDT" data-tv-url="https://www.tradingview.com/symbols/HYPEUSDT/"><span>HYPE-PERP<small>Perps · 10x</small></span><b>$71.69</b><em>+6.38%</em></button>
-          <button class="marketRow" type="button" data-kind="perps" data-symbol="BTC-PERP" data-sub="Bitcoin perpetual · Jupiter route" data-price="$73,837" data-price-value="73837" data-change="-0.04%" data-change-percent="-0.04" data-chart-symbol="BINANCE%3ABTCUSDT" data-chart-title="BTC / USDT" data-tv-url="https://www.tradingview.com/symbols/BTCUSDT/"><span>BTC-PERP<small>Perps · 40x</small></span><b>$73,837</b><em class="down">-0.04%</em></button>
-          <button class="marketRow" type="button" data-kind="perps" data-symbol="ETH-PERP" data-sub="Ethereum perpetual · Jupiter route" data-price="$2,009.50" data-price-value="2009.5" data-change="-0.72%" data-change-percent="-0.72" data-chart-symbol="BINANCE%3AETHUSDT" data-chart-title="ETH / USDT" data-tv-url="https://www.tradingview.com/symbols/ETHUSDT/"><span>ETH-PERP<small>Perps · 25x</small></span><b>$2,009.50</b><em class="down">-0.72%</em></button>
-          <button class="marketRow" type="button" data-kind="perps" data-symbol="SOL-PERP" data-sub="Solana perpetual · Jupiter route" data-price="$172.84" data-price-value="172.84" data-change="+6.23%" data-change-percent="6.23" data-chart-symbol="BINANCE%3ASOLUSDT" data-chart-title="SOL / USDT" data-tv-url="https://www.tradingview.com/symbols/SOLUSDT/"><span>SOL-PERP<small>Perps · 20x</small></span><b>$172.84</b><em>+6.23%</em></button>
+          <article class="marketRow" data-kind="spot" data-symbol="HYPE/USDC" data-sub="SPOT" data-badge="SPOT" data-price="$61.13" data-price-value="61.13" data-change="+5.92%" data-change-percent="5.92" data-chart-symbol="BITGET%3AHYPEUSDT" data-chart-title="HYPE / USDT" data-tv-url="https://www.tradingview.com/symbols/HYPEUSDT/">
+            <button class="starButton" type="button" aria-label="Save HYPE/USDC as favorite">☆</button>
+            <button class="marketMain" type="button"><span class="pairName">HYPE<span>/USDC</span></span><small class="marketBadge">SPOT</small></button>
+            <div class="marketVolume">$195 Mio.</div><div class="marketLast"><strong>72,462</strong><em>+7.49%</em></div>
+          </article>
+          <article class="marketRow" data-kind="spot" data-symbol="BTC/USDC" data-sub="SPOT" data-badge="SPOT" data-price="$63,202.23" data-price-value="63202.23" data-change="-0.15%" data-change-percent="-0.15" data-chart-symbol="BINANCE%3ABTCUSDT" data-chart-title="BTC / USDT" data-tv-url="https://www.tradingview.com/symbols/BTCUSDT/">
+            <button class="starButton" type="button" aria-label="Save BTC/USDC as favorite">☆</button>
+            <button class="marketMain" type="button"><span class="pairName">BTC<span>/USDC</span></span><small class="marketBadge">SPOT</small></button>
+            <div class="marketVolume">$12,1 Mio.</div><div class="marketLast"><strong>73.833</strong><em>+0.13%</em></div>
+          </article>
+          <article class="marketRow" data-kind="spot" data-symbol="ETH/USDC" data-sub="SPOT" data-badge="SPOT" data-price="$2,006.80" data-price-value="2006.8" data-change="-0.71%" data-change-percent="-0.71" data-chart-symbol="BINANCE%3AETHUSDT" data-chart-title="ETH / USDT" data-tv-url="https://www.tradingview.com/symbols/ETHUSDT/">
+            <button class="starButton" type="button" aria-label="Save ETH/USDC as favorite">☆</button>
+            <button class="marketMain" type="button"><span class="pairName">ETH<span>/USDC</span></span><small class="marketBadge">SPOT</small></button>
+            <div class="marketVolume">$5,50 Mio.</div><div class="marketLast"><strong>2.008,7</strong><em class="down">-0.57%</em></div>
+          </article>
+          <article class="marketRow" data-kind="spot" data-symbol="SOL/USDC" data-sub="SPOT" data-badge="SPOT" data-price="$172.84" data-price-value="172.84" data-change="+6.23%" data-change-percent="6.23" data-chart-symbol="BINANCE%3ASOLUSDT" data-chart-title="SOL / USDT" data-tv-url="https://www.tradingview.com/symbols/SOLUSDT/">
+            <button class="starButton" type="button" aria-label="Save SOL/USDC as favorite">☆</button>
+            <button class="marketMain" type="button"><span class="pairName">SOL<span>/USDC</span></span><small class="marketBadge">SPOT</small></button>
+            <div class="marketVolume">$3,45 Mio.</div><div class="marketLast"><strong>82,375</strong><em class="down">-0.17%</em></div>
+          </article>
+          <article class="marketRow" data-kind="spot" data-symbol="USDT/USDC" data-sub="SPOT" data-badge="SPOT" data-price="$1.00" data-price-value="1" data-change="+0.01%" data-change-percent="0.01" data-chart-symbol="CRYPTO%3AUSDTUSD" data-chart-title="USDT / USD" data-tv-url="https://www.tradingview.com/symbols/USDTUSD/">
+            <button class="starButton" type="button" aria-label="Save USDT/USDC as favorite">☆</button>
+            <button class="marketMain" type="button"><span class="pairName">USDT<span>/USDC</span></span><small class="marketBadge">SPOT</small></button>
+            <div class="marketVolume">$4,49 Mio.</div><div class="marketLast"><strong>0,99882</strong><em>+0.01%</em></div>
+          </article>
+          <article class="marketRow" data-kind="spot" data-symbol="USDC/USD" data-sub="SPOT" data-badge="SPOT" data-price="$1.00" data-price-value="1" data-change="+0.00%" data-change-percent="0" data-chart-symbol="COINBASE%3AUSDCUSD" data-chart-title="USDC / USD" data-tv-url="https://www.tradingview.com/symbols/USDCUSD/">
+            <button class="starButton" type="button" aria-label="Save USDC/USD as favorite">☆</button>
+            <button class="marketMain" type="button"><span class="pairName">USDC<span>/USD</span></span><small class="marketBadge">SPOT</small></button>
+            <div class="marketVolume">$2,18 Mio.</div><div class="marketLast"><strong>1,0002</strong><em>+0.00%</em></div>
+          </article>
+          <article class="marketRow" data-kind="perps" data-symbol="HYPE-USDC" data-sub="10x" data-badge="10x" data-price="$71.69" data-price-value="71.69" data-change="+6.38%" data-change-percent="6.38" data-chart-symbol="BITGET%3AHYPEUSDT" data-chart-title="HYPE / USDT" data-tv-url="https://www.tradingview.com/symbols/HYPEUSDT/">
+            <button class="starButton" type="button" aria-label="Save HYPE-USDC as favorite">☆</button>
+            <button class="marketMain" type="button"><span class="pairName">HYPE<span>-USDC</span></span><small class="marketBadge">10x</small></button>
+            <div class="marketVolume">$978 Mio.</div><div class="marketLast"><strong>71,690</strong><em>+6.38%</em></div>
+          </article>
+          <article class="marketRow" data-kind="perps" data-symbol="BTC-USDC" data-sub="40x" data-badge="40x" data-price="$73,837" data-price-value="73837" data-change="-0.04%" data-change-percent="-0.04" data-chart-symbol="BINANCE%3ABTCUSDT" data-chart-title="BTC / USDT" data-tv-url="https://www.tradingview.com/symbols/BTCUSDT/">
+            <button class="starButton" type="button" aria-label="Save BTC-USDC as favorite">☆</button>
+            <button class="marketMain" type="button"><span class="pairName">BTC<span>-USDC</span></span><small class="marketBadge">40x</small></button>
+            <div class="marketVolume">$1,09 Mrd.</div><div class="marketLast"><strong>73.837</strong><em class="down">-0.04%</em></div>
+          </article>
+          <article class="marketRow" data-kind="perps" data-symbol="ETH-USDC" data-sub="25x" data-badge="25x" data-price="$2,009.50" data-price-value="2009.5" data-change="-0.72%" data-change-percent="-0.72" data-chart-symbol="BINANCE%3AETHUSDT" data-chart-title="ETH / USDT" data-tv-url="https://www.tradingview.com/symbols/ETHUSDT/">
+            <button class="starButton" type="button" aria-label="Save ETH-USDC as favorite">☆</button>
+            <button class="marketMain" type="button"><span class="pairName">ETH<span>-USDC</span></span><small class="marketBadge">25x</small></button>
+            <div class="marketVolume">$328 Mio.</div><div class="marketLast"><strong>2.009,5</strong><em class="down">-0.72%</em></div>
+          </article>
+          <article class="marketRow" data-kind="perps" data-symbol="SOL-USDC" data-sub="20x" data-badge="20x" data-price="$172.84" data-price-value="172.84" data-change="+6.23%" data-change-percent="6.23" data-chart-symbol="BINANCE%3ASOLUSDT" data-chart-title="SOL / USDT" data-tv-url="https://www.tradingview.com/symbols/SOLUSDT/">
+            <button class="starButton" type="button" aria-label="Save SOL-USDC as favorite">☆</button>
+            <button class="marketMain" type="button"><span class="pairName">SOL<span>-USDC</span></span><small class="marketBadge">20x</small></button>
+            <div class="marketVolume">$87,6 Mio.</div><div class="marketLast"><strong>82,277</strong><em class="down">-0.53%</em></div>
+          </article>
         </div>
+        <div class="emptyMarketState" id="emptyMarketState">No favorites yet. Connect wallet and tap a star to save markets.</div>
       </section>
 
       <section class="appView" data-panel="portfolio">
@@ -142,7 +187,7 @@
 
       <section class="appView" data-panel="account">
         <div class="pageHead compactHead"><h1>Account</h1><p>Wallet connection, permissions and account status.</p></div>
-        <div class="accountSheet compact"><h2>Wallet</h2><p>No wallet connected.</p><button class="primaryWide" type="button">Connect wallet</button></div>
+        <div class="accountSheet compact"><h2>Wallet</h2><p class="walletStatusText">No wallet connected.</p><button class="primaryWide" type="button">Connect wallet</button></div>
       </section>
 
       <section class="appView simplePanel" data-panel="earn"><h1>Earn</h1><p>Earn modules are reserved until protocol, security and legal review is complete.</p></section>
@@ -157,8 +202,9 @@
       <button class="mobileNavItem active" type="button" data-view="trade"><svg class="tradeCoins" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="14" r="5.3"/><circle cx="15" cy="10" r="5.3" opacity=".82"/></svg><span>Trade</span></button>
       <button class="mobileNavItem" type="button" data-view="account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0H5Z"/></svg><span>Account</span></button>
     </nav>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </div>
 
-  <script src="app.js?v=20260531-34"></script>
+  <script src="app.js?v=20260531-35"></script>
 </body>
 </html>
