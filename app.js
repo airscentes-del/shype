@@ -24,15 +24,41 @@ const positionFilterButtons = document.querySelectorAll('[data-position-filter]'
 const spotEquity = document.querySelector('#spotEquity');
 const perpsEquity = document.querySelector('#perpsEquity');
 const portfolioPnl = document.querySelector('#portfolioPnl');
+const connectButtons = document.querySelectorAll('.connectWallet, .primaryWide');
+const toast = document.querySelector('#toast');
+const emptyMarketState = document.querySelector('#emptyMarketState');
 
-let activeMarket = marketRows[0] || null;
+let activeMarket = Array.from(marketRows).find(row => row.dataset.kind === 'perps' && row.dataset.symbol === 'SOL-USDC') || marketRows[0] || null;
 let activeMarketFilter = 'all';
 let activePositionFilter = 'all';
 let positions = [];
+let walletConnected = localStorage.getItem('shypeWalletConnected') === 'true';
+let favorites = new Set(JSON.parse(localStorage.getItem('shypeFavorites') || '[]'));
+let toastTimer;
 
 function closeDrawer() {
   body.classList.remove('drawerOpen');
   if (menuButton) menuButton.setAttribute('aria-expanded', 'false');
+}
+
+function showToast(message) {
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add('visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('visible'), 2200);
+}
+
+function setWalletConnected(value) {
+  walletConnected = value;
+  localStorage.setItem('shypeWalletConnected', String(value));
+  document.querySelectorAll('.connectWallet').forEach(button => {
+    button.textContent = value ? 'Connected' : 'Connect';
+    button.classList.toggle('connected', value);
+  });
+  document.querySelector('.walletStatusText')?.replaceChildren(document.createTextNode(value ? 'Demo wallet connected.' : 'No wallet connected.'));
+  updateFavoriteStars();
+  applyMarketFilter();
 }
 
 function openView(view) {
@@ -61,15 +87,17 @@ function formatUsd(value) {
   return `$${Number(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
-function getKindLabel(kind) {
-  return kind === 'perps' ? 'Perps' : 'Spot';
+function getKindLabel(kind, badge) {
+  if (kind === 'perps') return `Perps · ${badge || '10x'}`;
+  return 'Spot';
 }
 
 function updateSelectedMarket(row) {
   activeMarket = row;
   const kind = row.dataset.kind || 'spot';
-  if (marketTitle) marketTitle.textContent = row.dataset.symbol || 'SOL';
-  if (marketSubtitle) marketSubtitle.textContent = row.dataset.sub || 'Buy with SOL · Spot';
+  const badge = row.dataset.badge || row.dataset.sub || '';
+  if (marketTitle) marketTitle.textContent = row.dataset.symbol || 'SOL/USDC';
+  if (marketSubtitle) marketSubtitle.textContent = kind === 'perps' ? badge : 'SPOT';
   if (marketPrice) marketPrice.textContent = row.dataset.price || '$172.84';
   if (marketChange) marketChange.textContent = row.dataset.change || '+10.14 / +6.23%';
   if (chartTitle) chartTitle.textContent = row.dataset.chartTitle || 'SOL / USDT';
@@ -78,21 +106,44 @@ function updateSelectedMarket(row) {
     chartFrame.title = `${row.dataset.chartTitle || row.dataset.symbol} live chart`;
     chartFrame.src = buildTradingViewUrl(row.dataset.chartSymbol);
   }
-  if (ticketSymbol) ticketSymbol.textContent = row.dataset.symbol || 'SOL';
-  if (ticketType) ticketType.textContent = getKindLabel(kind);
+  if (ticketSymbol) ticketSymbol.textContent = row.dataset.symbol || 'SOL/USDC';
+  if (ticketType) ticketType.textContent = getKindLabel(kind, badge);
   if (buyButton) buyButton.textContent = kind === 'perps' ? 'Open Perp' : 'Buy Spot';
+}
+
+function updateFavoriteStars() {
+  marketRows.forEach(row => {
+    const star = row.querySelector('.starButton');
+    if (!star) return;
+    const isFavorite = favorites.has(row.dataset.symbol);
+    star.classList.toggle('active', isFavorite);
+    star.textContent = isFavorite ? '★' : '☆';
+  });
+}
+
+function saveFavorites() {
+  localStorage.setItem('shypeFavorites', JSON.stringify([...favorites]));
 }
 
 function applyMarketFilter() {
   const query = (marketSearch?.value || '').trim().toLowerCase();
+  let visibleCount = 0;
   marketRows.forEach(row => {
     const kind = row.dataset.kind || 'spot';
     const symbol = (row.dataset.symbol || '').toLowerCase();
     const text = row.textContent.toLowerCase();
-    const matchesKind = activeMarketFilter === 'all' || kind === activeMarketFilter;
+    const matchesKind = activeMarketFilter === 'all' || kind === activeMarketFilter || (activeMarketFilter === 'favorites' && favorites.has(row.dataset.symbol));
     const matchesSearch = !query || symbol.includes(query) || text.includes(query);
-    row.hidden = !(matchesKind && matchesSearch);
+    const shouldShow = matchesKind && matchesSearch;
+    row.hidden = !shouldShow;
+    if (shouldShow) visibleCount += 1;
   });
+  if (emptyMarketState) {
+    emptyMarketState.classList.toggle('visible', visibleCount === 0);
+    emptyMarketState.textContent = activeMarketFilter === 'favorites'
+      ? (walletConnected ? 'No favorites yet. Tap a star to save markets.' : 'Connect wallet to save and view favorites.')
+      : 'No markets match your search.';
+  }
 }
 
 function renderPositions() {
@@ -156,6 +207,13 @@ if (menuButton) {
 
 if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
 
+document.querySelectorAll('.connectWallet, .accountSheet .primaryWide').forEach(button => {
+  button.addEventListener('click', () => {
+    setWalletConnected(true);
+    showToast('Demo wallet connected. Favorites are now enabled.');
+  });
+});
+
 viewButtons.forEach(button => {
   button.addEventListener('click', () => {
     const view = button.dataset.view;
@@ -164,9 +222,22 @@ viewButtons.forEach(button => {
 });
 
 marketRows.forEach(row => {
-  row.addEventListener('click', () => {
+  row.querySelector('.marketMain')?.addEventListener('click', () => {
     updateSelectedMarket(row);
     openView('trade');
+  });
+  row.querySelector('.starButton')?.addEventListener('click', event => {
+    event.stopPropagation();
+    if (!walletConnected) {
+      showToast('Connect wallet to save favorites.');
+      return;
+    }
+    const symbol = row.dataset.symbol;
+    if (favorites.has(symbol)) favorites.delete(symbol);
+    else favorites.add(symbol);
+    saveFavorites();
+    updateFavoriteStars();
+    applyMarketFilter();
   });
 });
 
@@ -194,7 +265,7 @@ if (buyButton) {
     const amount = Math.max(Number(tradeAmount?.value || 1), 0.01);
     positions.unshift({
       id: Date.now(),
-      symbol: activeMarket.dataset.symbol || 'SOL',
+      symbol: activeMarket.dataset.symbol || 'SOL/USDC',
       kind: activeMarket.dataset.kind || 'spot',
       entry: Number(activeMarket.dataset.priceValue || 1),
       changePercent: Number(activeMarket.dataset.changePercent || 0),
@@ -204,6 +275,8 @@ if (buyButton) {
   });
 }
 
+setWalletConnected(walletConnected);
+updateFavoriteStars();
 if (activeMarket) updateSelectedMarket(activeMarket);
 applyMarketFilter();
 renderPositions();
