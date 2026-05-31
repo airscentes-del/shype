@@ -1,18 +1,19 @@
 :root{
-  --bg:#071317;
-  --bg-deep:#050d11;
-  --panel:#0b1b20;
-  --panel-soft:#0f2228;
-  --line:rgba(174,205,213,.14);
-  --line-strong:rgba(174,205,213,.22);
-  --text:#edf7fa;
-  --muted:#94a5ab;
-  --soft:#c4d0d5;
-  --cyan:#55ddd6;
-  --cyan-soft:#2bb8b2;
-  --purple:#7b5cff;
+  --bg:#071722;
+  --bg-deep:#050d14;
+  --panel:#0a1a24;
+  --panel-soft:#102735;
+  --line:rgba(168,206,224,.14);
+  --line-strong:rgba(168,206,224,.22);
+  --text:#edf8ff;
+  --muted:#95a9b4;
+  --soft:#c2d1d9;
+  --blue:#45c9ff;
+  --blue-soft:#2ba9e6;
+  --cyan:#5fd7ff;
+  --purple:#735cff;
   --red:#ff819e;
-  --green:#28c6a9;
+  --up:#49c9ff;
   --font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
 *{box-sizing:border-box}
@@ -28,7 +29,7 @@ body{
 button,input{font:inherit}
 button{color:inherit}
 a{color:inherit;text-decoration:none}
-.appShell{min-height:100dvh;padding-bottom:72px;background:linear-gradient(180deg,#07161b 0%,#071317 54%,#050d11 100%)}
+.appShell{min-height:100dvh;padding-bottom:72px;background:linear-gradient(180deg,#071a26 0%,#071722 54%,#050d14 100%)}
 .terminalTopbar{
   position:sticky;
   top:0;
@@ -39,7 +40,7 @@ a{color:inherit;text-decoration:none}
   justify-content:space-between;
   gap:16px;
   padding:10px 18px;
-  background:rgba(7,19,23,.96);
+  background:rgba(7,23,34,.96);
   border-bottom:1px solid var(--line-strong);
   backdrop-filter:blur(16px);
   -webkit-backdrop-filter:blur(16px);
@@ -66,8 +67,8 @@ a{color:inherit;text-decoration:none}
   min-height:42px;
   padding:0 22px;
   border-radius:12px;
-  background:linear-gradient(135deg,var(--cyan),#45cdf5);
-  color:#071317;
+  background:linear-gradient(135deg,#5ff0ff,#45c9ff 70%);
+  color:#06131d;
   font-size:16px;
   font-weight:520;
   cursor:pointer;
@@ -89,7 +90,7 @@ a{color:inherit;text-decoration:none}
   width:min(316px,78vw);
   height:100dvh;
   padding:54px 30px 34px;
-  background:#0a1b20;
+  background:#0a1a24;
   border-right:1px solid var(--line-strong);
   transform:translateX(-102%);
   transition:transform .28s cubic-bezier(.16,1,.3,1);
@@ -104,7 +105,7 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
 .drawerLink{
   border:0;
   background:transparent;
-  color:#edf7fa;
+  color:#edf8ff;
   text-align:left;
   padding:13px 0;
   font-size:28px;
@@ -112,7 +113,7 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
   letter-spacing:-.035em;
   cursor:pointer;
 }
-.drawerLink.active{color:var(--cyan)}
+.drawerLink.active{color:var(--blue)}
 .drawerLink.small{font-size:21px;color:#c5d1d6;padding:11px 0}
 .drawerDivider{height:1px;background:var(--line-strong);margin:22px -30px 18px}
 .terminalMain{width:min(100%,1280px);margin:0 auto}
@@ -127,7 +128,7 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
   gap:18px;
   padding:15px 18px;
   border-bottom:1px solid var(--line-strong);
-  background:#09181d;
+  background:#091923;
 }
 .marketIdentity{
   border:0;
@@ -143,15 +144,15 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
 }
 .marketIdentity img{width:34px;height:24px;object-fit:contain;flex:0 0 auto}
 .marketIdentity strong{font-size:28px;font-weight:430;letter-spacing:-.04em;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.marketIdentity small{display:block;margin-top:4px;color:var(--cyan);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.marketIdentity small{display:block;margin-top:4px;color:var(--blue);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .marketIdentity i{font-style:normal;color:var(--muted);font-size:24px;margin-left:2px}
 .marketNumbers{text-align:right;white-space:nowrap}
 .marketNumbers strong{display:block;font-size:30px;font-weight:430;letter-spacing:-.035em;color:var(--red)}
-.marketNumbers span{display:block;margin-top:4px;color:var(--green);font-size:16px}
+.marketNumbers span{display:block;margin-top:4px;color:var(--up);font-size:16px}
 .terminalTabs{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  background:#09181d;
+  background:#091923;
   border-bottom:1px solid var(--line-strong);
 }
 .terminalTabs button{
@@ -163,8 +164,8 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
   font-size:18px;
   cursor:pointer;
 }
-.terminalTabs button.active{color:var(--text);border-bottom-color:var(--cyan)}
-.chartModule{background:#071317;border-bottom:1px solid var(--line-strong)}
+.terminalTabs button.active{color:var(--text);border-bottom-color:var(--blue)}
+.chartModule{background:#071722;border-bottom:1px solid var(--line-strong)}
 .chartTopline{
   min-height:54px;
   padding:10px 18px;
@@ -176,10 +177,10 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
 }
 .chartTopline strong{font-size:17px;font-weight:520}
 .chartTopline span{display:block;color:var(--muted);font-size:13px;margin-top:2px}
-.chartTopline a{color:var(--cyan);font-size:14px;white-space:nowrap}
-.chartFrame{height:calc(100dvh - 66px - 88px - 54px - 54px - 72px);min-height:430px;background:#050d11;overflow:hidden}
-.chartFrame iframe{width:100%;height:100%;border:0;display:block;background:#050d11}
-.positionPanel{background:#071317;min-height:180px}
+.chartTopline a{color:var(--blue);font-size:14px;white-space:nowrap}
+.chartFrame{height:calc(100dvh - 66px - 88px - 54px - 54px - 72px);min-height:430px;background:#050d14;overflow:hidden}
+.chartFrame iframe{width:100%;height:100%;border:0;display:block;background:#050d14}
+.positionPanel{background:#071722;min-height:180px}
 .positionTabs{
   display:flex;
   gap:24px;
@@ -197,7 +198,7 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
   font-size:15px;
   cursor:pointer;
 }
-.positionTabs button.active{color:var(--text);border-bottom-color:var(--cyan)}
+.positionTabs button.active{color:var(--text);border-bottom-color:var(--blue)}
 .emptyState{
   min-height:122px;
   display:flex;
@@ -208,10 +209,10 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
   color:var(--muted);
 }
 .emptyState button,.primaryWide{
-  border:1px solid rgba(85,221,214,.38);
+  border:1px solid rgba(69,201,255,.42);
   border-radius:11px;
-  background:rgba(85,221,214,.10);
-  color:var(--cyan);
+  background:rgba(69,201,255,.10);
+  color:var(--blue);
   min-height:40px;
   padding:0 16px;
   cursor:pointer;
@@ -240,7 +241,7 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
   padding:0 15px;
   cursor:pointer;
 }
-.marketSearch button.active{background:var(--cyan);border-color:transparent;color:#071317}
+.marketSearch button.active{background:linear-gradient(135deg,#5ff0ff,#45c9ff);border-color:transparent;color:#06131d}
 .marketTable{padding:2px 18px 22px}
 .marketRow{
   width:100%;
@@ -260,7 +261,7 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
 .marketRow span{font-size:24px;font-weight:430;letter-spacing:-.04em}
 .marketRow small{display:block;color:var(--muted);font-size:13px;margin-top:4px;letter-spacing:0}
 .marketRow b{font-size:21px;font-weight:430;text-align:right}
-.marketRow em{font-size:15px;font-style:normal;color:var(--green);min-width:64px;text-align:right}
+.marketRow em{font-size:15px;font-style:normal;color:var(--up);min-width:64px;text-align:right}
 .marketRow em.down{color:var(--red)}
 .accountSheet{
   margin:18px;
@@ -275,7 +276,7 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
 .accountSheet p{color:var(--soft);margin:0 0 18px}
 .accountSheet div{display:flex;justify-content:space-between;gap:18px;padding:11px 0;color:var(--muted)}
 .accountSheet strong{color:var(--text);font-weight:460}
-.accountSheet .accent{color:var(--cyan)}
+.accountSheet .accent{color:var(--blue)}
 .accountSheet hr{border:0;border-top:1px solid var(--line-strong);margin:16px 0}
 .primaryWide{width:100%;margin-top:14px}
 .simplePanel{padding:38px 18px;max-width:680px}
@@ -289,7 +290,7 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
   display:grid;
   grid-template-columns:repeat(3,1fr);
   align-items:center;
-  background:rgba(7,19,23,.98);
+  background:rgba(7,23,34,.98);
   border-top:1px solid var(--line-strong);
   backdrop-filter:blur(16px);
   -webkit-backdrop-filter:blur(16px);
@@ -307,7 +308,8 @@ body.drawerOpen .mainDrawer{transform:translateX(0)}
   min-width:0;
 }
 .mobileNavItem svg{width:23px;height:23px;fill:currentColor;flex:0 0 auto}
-.mobileNavItem.active{color:var(--cyan)}
+.mobileNavItem .tradeCoins{width:25px;height:25px}
+.mobileNavItem.active{color:var(--blue)}
 @media(min-width:940px){
   .appShell{padding-bottom:0}
   .mobileNav{display:none}
