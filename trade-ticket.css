@@ -7,282 +7,51 @@
   border-top:1px solid rgba(168,206,224,.18)!important;
   border-bottom:1px solid var(--line-strong)!important;
 }
-.ticketForm{
-  padding:12px 12px 14px;
-  border-right:1px solid var(--line-strong);
-  min-width:0;
-}
-.ticketTopControls{
-  display:grid;
-  grid-template-columns:1fr 1fr .8fr;
-  gap:7px;
-  margin-bottom:8px;
-}
-.ticketTopControls button,
-.ticketSelect{
-  min-height:31px;
-  border:0;
-  background:transparent;
-  color:var(--soft);
-  text-align:left;
-  font-size:13px;
-  cursor:pointer;
-}
-.sideTabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  background:rgba(255,255,255,.075);
-  border-radius:10px;
-  padding:2px;
-  margin-bottom:10px;
-}
-.sideTabs button{
-  min-height:34px;
-  border:0;
-  border-radius:8px;
-  background:transparent;
-  color:var(--text);
-  font-size:14px;
-  cursor:pointer;
-}
-.sideTabs button.active{
-  background:linear-gradient(135deg,#66eaff,#4dbff1);
-  color:#06131d;
-}
-.ticketBalance,
-.ticketMetric{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  color:var(--muted);
-  font-size:13px;
-  margin:7px 0;
-}
-.ticketBalance strong,
-.ticketMetric strong{
-  color:var(--text);
-  font-weight:430;
-}
-.compactInput{
-  display:grid;
-  grid-template-columns:1fr auto;
-  align-items:center;
-  min-height:38px;
-  border:1px solid var(--line-strong);
-  border-radius:9px;
-  background:rgba(255,255,255,.018);
-  overflow:hidden;
-  margin:8px 0 9px;
-}
-.compactInput input{
-  min-width:0;
-  border:0;
-  outline:0;
-  background:transparent;
-  color:var(--text);
-  padding:0 12px;
-  font-size:15px;
-}
-.compactInput em{
-  font-style:normal;
-  color:var(--soft);
-  padding:0 11px;
-  font-size:14px;
-}
-.percentRow{
-  display:grid;
-  grid-template-columns:1fr 54px;
-  gap:9px;
-  align-items:center;
-  margin:8px 0 10px;
-}
-.fakeSlider{
-  height:4px;
-  border-radius:99px;
-  background:linear-gradient(90deg,var(--blue) 0 0,rgba(255,255,255,.18) 0);
-  position:relative;
-}
-.fakeSlider::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:50%;
-  width:16px;
-  height:16px;
-  border-radius:50%;
-  border:2px solid var(--blue);
-  transform:translateY(-50%);
-  background:#071722;
-}
-.percentBox{
-  min-height:34px;
-  border:1px solid var(--line-strong);
-  border-radius:9px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--text);
-  font-size:14px;
-}
-.checkLine{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  color:var(--text);
-  font-size:13px;
-  margin:7px 0;
-}
-.checkLine i{
-  width:16px;
-  height:16px;
-  border:1px solid var(--line-strong);
-  border-radius:4px;
-  display:block;
-}
-.ticketDivider{
-  height:1px;
-  background:var(--line-strong);
-  margin:10px 0 8px;
-}
-.ticketAction{
-  width:100%;
-  min-height:42px;
-  border:0;
-  border-radius:9px;
-  background:linear-gradient(135deg,#66eaff,#4dbff1);
-  color:#06131d;
-  font-size:15px;
-  font-weight:520;
-  cursor:pointer;
-  margin-top:10px;
-}
-.ticketAction.secondary{
-  border:1px solid rgba(69,201,255,.45);
-  background:rgba(69,201,255,.08);
-  color:var(--blue);
-}
-.spotRouteLine{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  color:var(--muted);
-  font-size:13px;
-  margin:8px 0;
-}
+.ticketForm{padding:12px 12px 14px;border-right:1px solid var(--line-strong);min-width:0;}
+.ticketTopControls{display:grid;grid-template-columns:1fr 1fr .8fr;gap:7px;margin-bottom:8px;}
+.ticketTopControls button,.ticketSelect{min-height:31px;border:0;background:transparent;color:var(--soft);text-align:left;font-size:13px;cursor:pointer;}
+.sideTabs{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.075);border-radius:10px;padding:2px;margin-bottom:10px;}
+.sideTabs button{min-height:34px;border:0;border-radius:8px;background:transparent;color:var(--text);font-size:14px;cursor:pointer;}
+.sideTabs button.active{background:linear-gradient(135deg,#66eaff,#4dbff1);color:#06131d;}
+.ticketBalance,.ticketMetric{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:13px;margin:7px 0;}
+.ticketBalance strong,.ticketMetric strong{color:var(--text);font-weight:430;}
+.compactInput{display:grid;grid-template-columns:1fr auto;align-items:center;min-height:38px;border:1px solid var(--line-strong);border-radius:9px;background:rgba(255,255,255,.018);overflow:hidden;margin:8px 0 9px;}
+.compactInput input{min-width:0;border:0;outline:0;background:transparent;color:var(--text);padding:0 12px;font-size:15px;}
+.compactInput em{font-style:normal;color:var(--soft);padding:0 11px;font-size:14px;}
+.percentRow{display:grid;grid-template-columns:1fr 54px;gap:9px;align-items:center;margin:8px 0 10px;}
+.fakeSlider{height:4px;border-radius:99px;background:linear-gradient(90deg,var(--blue) 0 0,rgba(255,255,255,.18) 0);position:relative;}
+.fakeSlider::before{content:"";position:absolute;left:0;top:50%;width:16px;height:16px;border-radius:50%;border:2px solid var(--blue);transform:translateY(-50%);background:#071722;}
+.percentBox{min-height:34px;border:1px solid var(--line-strong);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--text);font-size:14px;}
+.checkLine{display:flex;align-items:center;gap:8px;color:var(--text);font-size:13px;margin:7px 0;}
+.checkLine i{width:16px;height:16px;border:1px solid var(--line-strong);border-radius:4px;display:block;}
+.ticketDivider{height:1px;background:var(--line-strong);margin:10px 0 8px;}
+.ticketAction{width:100%;min-height:42px;border:0;border-radius:9px;background:linear-gradient(135deg,#66eaff,#4dbff1);color:#06131d;font-size:15px;font-weight:520;cursor:pointer;margin-top:10px;}
+.ticketAction.secondary{border:1px solid rgba(69,201,255,.45);background:rgba(69,201,255,.08);color:var(--blue);}
+.spotRouteLine{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:13px;margin:8px 0;}
 .spotRouteLine strong{color:var(--text);font-weight:430;}
-.miniOrderBook{
-  min-width:0;
-  background:rgba(255,255,255,.012);
-  padding:10px 0 9px;
-}
-.miniBookHead,
-.miniBookRow{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  min-height:23px;
-  align-items:center;
-  padding:0 10px;
-  font-variant-numeric:tabular-nums;
-}
-.miniBookHead{
-  color:var(--muted);
-  font-size:12px;
-  min-height:28px;
-}
-.miniBookRow{
-  position:relative;
-  color:var(--soft);
-  font-size:13px;
-}
-.miniBookRow span{position:relative;z-index:1;}
-.miniBookRow span:last-child{text-align:right;}
-.miniBookRow.ask .miniBar{background:rgba(255,129,158,.17);left:0;}
-.miniBookRow.bid .miniBar{background:rgba(69,201,255,.16);right:0;}
-.miniBar{
-  position:absolute;
-  top:2px;
-  bottom:2px;
-  width:45%;
-  border-radius:0;
-}
+.miniOrderBook{min-width:0;background:rgba(255,255,255,.012);padding:10px 0 9px;}
+.miniBookHead,.miniBookRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;min-height:23px;align-items:center;padding:0 10px;font-variant-numeric:tabular-nums;}
+.miniBookHead{color:var(--muted);font-size:12px;min-height:28px;}
+.miniBookRow{position:relative;color:var(--soft);font-size:13px;}
+.miniBookRow span{position:relative;z-index:1;}.miniBookRow span:last-child{text-align:right;}
+.miniBookRow.ask .miniBar{background:rgba(255,129,158,.17);left:0;}.miniBookRow.bid .miniBar{background:rgba(69,201,255,.16);right:0;}
+.miniBar{position:absolute;top:2px;bottom:2px;width:45%;border-radius:0;}
 .askPrice{color:var(--red);}.bidPrice{color:#5fd7ff;}
-.midPrice{
-  padding:8px 10px;
-  color:var(--red);
-  font-size:20px;
-  line-height:1;
-  font-variant-numeric:tabular-nums;
-}
-.quoteTabs{
-  display:none;
-  gap:24px;
-  overflow:auto;
-  padding:0 18px;
-  border-bottom:1px solid var(--line);
-  background:rgba(255,255,255,.008);
-}
+.midPrice{padding:8px 10px;color:var(--red);font-size:20px;line-height:1;font-variant-numeric:tabular-nums;}
+.quoteTabs{display:none;gap:24px;overflow:auto;padding:0 18px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.008);}
 .quoteTabs.visible{display:flex;}
-.quoteTabs button{
-  border:0;
-  background:transparent;
-  color:var(--muted);
-  border-bottom:2px solid transparent;
-  min-height:42px;
-  font-size:15px;
-  white-space:nowrap;
-  cursor:pointer;
-}
+.quoteTabs button{border:0;background:transparent;color:var(--muted);border-bottom:2px solid transparent;min-height:42px;font-size:15px;white-space:nowrap;cursor:pointer;}
 .quoteTabs button.active{color:var(--text);border-bottom-color:var(--blue);}
-.accountTabs{
-  justify-content:space-between!important;
-  gap:0!important;
-  padding:0 18px!important;
-}
-.accountTabs button{
-  font-size:15px!important;
-  min-height:52px!important;
-  padding:0 8px!important;
-}
-.positionTabs{
-  gap:31px!important;
-  padding:0 18px!important;
-}
-.positionTabs button{
-  font-size:15px!important;
-  min-height:45px!important;
-}
+.accountTabs{justify-content:space-between!important;gap:0!important;padding:0 18px!important;}
+.accountTabs button{font-size:15px!important;min-height:52px!important;padding:0 8px!important;}
+.positionTabs{gap:31px!important;padding:0 18px!important;}
+.positionTabs button{font-size:15px!important;min-height:45px!important;}
 .positionList{padding:0 18px 20px!important;}
-.emptyState{
-  min-height:126px!important;
-  padding:20px 0!important;
-  font-size:17px!important;
-}
-.emptyState button{
-  min-height:46px!important;
-  border-radius:13px!important;
-  font-size:16px!important;
-  padding:0 18px!important;
-}
-@media(min-width:940px){
-  .tradeTicket.proTicket{grid-template-columns:minmax(0,520px) minmax(320px,1fr)!important;}
-  .ticketForm{padding:15px 18px 16px;}
-}
-@media(max-width:420px){
-  .tradeTicket.proTicket{grid-template-columns:minmax(0,62%) minmax(0,38%)!important;}
-  .ticketForm{padding:10px 10px 12px;}
-  .ticketTopControls{gap:5px;}
-  .ticketTopControls button,.ticketSelect{font-size:12px;}
-  .sideTabs button{font-size:13px;min-height:32px;}
-  .ticketBalance,.ticketMetric,.checkLine,.spotRouteLine{font-size:12px;}
-  .compactInput{min-height:36px;}
-  .compactInput input{font-size:14px;padding-inline:10px;}
-  .compactInput em{font-size:12px;padding-inline:8px;}
-  .miniBookHead,.miniBookRow{padding-inline:8px;font-size:12px;gap:4px;}
-  .midPrice{font-size:18px;padding-inline:8px;}
-  .accountTabs button{font-size:14px!important;padding:0 8px!important;}
-  .positionTabs{gap:28px!important;}
-  .emptyState{font-size:16px!important;}
-  .emptyState button{font-size:15px!important;padding:0 16px!important;}
-}
+.emptyState{min-height:126px!important;padding:20px 0!important;font-size:17px!important;}
+.emptyState button{min-height:46px!important;border-radius:13px!important;font-size:16px!important;padding:0 18px!important;}
+.metricToggle{width:42px!important;height:42px!important;border-radius:11px!important;border:1px solid rgba(168,206,224,.22)!important;background:rgba(255,255,255,.022)!important;color:transparent!important;font-size:0!important;line-height:0!important;position:relative!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.018)!important;transition:border-color .16s ease,background .16s ease,box-shadow .16s ease!important;}
+.metricToggle::before{content:"";width:10px;height:10px;border-right:2px solid #c7d4dc;border-bottom:2px solid #c7d4dc;position:absolute;left:50%;top:48%;transform:translate(-50%,-50%) rotate(45deg);border-radius:1px;transition:transform .18s ease,border-color .18s ease;}
+.metricToggle.open{background:rgba(69,201,255,.055)!important;border-color:rgba(69,201,255,.42)!important;box-shadow:0 0 0 1px rgba(69,201,255,.08)!important;}
+.metricToggle.open::before{border-color:#75d9ff;transform:translate(-50%,-35%) rotate(225deg);}
+@media(min-width:940px){.tradeTicket.proTicket{grid-template-columns:minmax(0,520px) minmax(320px,1fr)!important;}.ticketForm{padding:15px 18px 16px;}}
+@media(max-width:420px){.tradeTicket.proTicket{grid-template-columns:minmax(0,62%) minmax(0,38%)!important;}.ticketForm{padding:10px 10px 12px;}.ticketTopControls{gap:5px;}.ticketTopControls button,.ticketSelect{font-size:12px;}.sideTabs button{font-size:13px;min-height:32px;}.ticketBalance,.ticketMetric,.checkLine,.spotRouteLine{font-size:12px;}.compactInput{min-height:36px;}.compactInput input{font-size:14px;padding-inline:10px;}.compactInput em{font-size:12px;padding-inline:8px;}.miniBookHead,.miniBookRow{padding-inline:8px;font-size:12px;gap:4px;}.midPrice{font-size:18px;padding-inline:8px;}.accountTabs button{font-size:14px!important;padding:0 8px!important;}.positionTabs{gap:28px!important;}.emptyState{font-size:16px!important;}.emptyState button{font-size:15px!important;padding:0 16px!important;}.metricToggle{width:38px!important;height:38px!important;border-radius:10px!important;}.metricToggle::before{width:9px;height:9px;border-width:2px;}}
