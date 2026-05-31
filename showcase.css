@@ -20,74 +20,25 @@
 .featureIcon{
   width:82px;
   height:82px;
-  border-radius:50%;
-  border:1px solid rgba(6,68,96,.18);
   display:grid;
   place-items:center;
-  color:rgba(6,68,96,.42);
+  color:rgba(6,68,96,.34);
   position:relative;
 }
-.featureIcon:before,.featureIcon:after{content:'';position:absolute;display:block;box-sizing:border-box;}
+.featureIcon:before{
+  content:'';
+  position:absolute;
+  inset:0;
+  display:block;
+  background:currentColor;
+  -webkit-mask:var(--feature-icon) center/contain no-repeat;
+  mask:var(--feature-icon) center/contain no-repeat;
+}
+.featureIcon:after{content:none;}
 
-/* Perps trading: technical candlestick mark inside the circle */
-.icon-perps:before{
-  width:42px;
-  height:34px;
-  background:
-    linear-gradient(currentColor,currentColor) 7px 12px/1.2px 20px no-repeat,
-    linear-gradient(currentColor,currentColor) 3px 20px/8px 8px no-repeat,
-    linear-gradient(currentColor,currentColor) 20px 5px/1.2px 23px no-repeat,
-    linear-gradient(currentColor,currentColor) 16px 10px/8px 11px no-repeat,
-    linear-gradient(currentColor,currentColor) 33px 0/1.2px 24px no-repeat,
-    linear-gradient(currentColor,currentColor) 29px 6px/8px 9px no-repeat;
-  opacity:.9;
-}
-.icon-perps:after{
-  width:42px;
-  height:24px;
-  border-left:1.1px solid transparent;
-  border-bottom:1.1px solid currentColor;
-  transform:translateY(8px) rotate(-18deg);
-  opacity:.28;
-}
-
-/* Simple launch: token circle plus creation mark */
-.icon-launch:before{
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  border:1.2px solid currentColor;
-  box-shadow:inset 0 0 0 8px rgba(6,68,96,.055);
-  opacity:.9;
-}
-.icon-launch:after{
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  transform:translate(16px,-15px);
-  background:
-    linear-gradient(currentColor,currentColor) center/12px 1.2px no-repeat,
-    linear-gradient(currentColor,currentColor) center/1.2px 12px no-repeat;
-  border:1px solid rgba(6,68,96,.20);
-  opacity:.75;
-}
-
-/* Position control: close-position frame with diagonal X */
-.icon-close:before{
-  width:36px;
-  height:28px;
-  border:1.2px solid currentColor;
-  border-radius:9px;
-  opacity:.9;
-}
-.icon-close:after{
-  width:28px;
-  height:28px;
-  background:
-    linear-gradient(45deg,transparent 47%,currentColor 48%,currentColor 52%,transparent 53%),
-    linear-gradient(-45deg,transparent 47%,currentColor 48%,currentColor 52%,transparent 53%);
-  opacity:.7;
-}
+.icon-perps{--feature-icon:url('assets/feature-perps.svg?v=26');}
+.icon-launch{--feature-icon:url('assets/feature-launch.svg?v=26');}
+.icon-close{--feature-icon:url('assets/feature-close.svg?v=26');}
 
 .featureItem h3{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.02;letter-spacing:-.04em;margin:0 0 8px;}
 .featureItem p{font-size:17px;line-height:1.28;margin:0;color:#12313f;max-width:540px;}
@@ -95,4 +46,4 @@
 .sectionDark{display:none;}
 
 @media (min-width:761px) and (max-width:1100px){.phoneStage{height:430px;}.phoneImage{width:min(560px,74vw);}}
-@media(max-width:760px){.appShowcase{padding-top:74px;}.appShowcase h2{font-size:36px;margin-bottom:30px;}.phoneStage{height:329px;}.phoneImage{width:min(430px,96vw);margin-top:-4px;}.featureBand{background:linear-gradient(180deg,#ddf9ff 0%,#d8f4ff 100%);padding:40px 24px 58px;}.featureItem{grid-template-columns:70px 1fr;gap:18px;padding:26px 0;}.featureIcon{width:60px;height:60px;}.icon-perps:before{width:31px;height:26px;background:linear-gradient(currentColor,currentColor) 5px 9px/1px 15px no-repeat,linear-gradient(currentColor,currentColor) 2px 15px/6px 7px no-repeat,linear-gradient(currentColor,currentColor) 15px 4px/1px 17px no-repeat,linear-gradient(currentColor,currentColor) 12px 8px/6px 9px no-repeat,linear-gradient(currentColor,currentColor) 25px 0/1px 18px no-repeat,linear-gradient(currentColor,currentColor) 22px 5px/6px 7px no-repeat;}.icon-perps:after{width:31px;height:18px;transform:translateY(7px) rotate(-18deg);}.icon-launch:before{width:25px;height:25px;box-shadow:inset 0 0 0 6px rgba(6,68,96,.055);}.icon-launch:after{width:14px;height:14px;transform:translate(12px,-12px);background:linear-gradient(currentColor,currentColor) center/9px 1px no-repeat,linear-gradient(currentColor,currentColor) center/1px 9px no-repeat;}.icon-close:before{width:27px;height:22px;border-radius:7px;}.icon-close:after{width:22px;height:22px;}.featureItem h3{font-size:28px;}.featureItem p{font-size:16px;}.appShowcaseActions{display:grid;grid-template-columns:1fr;max-width:310px;margin:28px auto 0;}}
+@media(max-width:760px){.appShowcase{padding-top:74px;}.appShowcase h2{font-size:36px;margin-bottom:30px;}.phoneStage{height:329px;}.phoneImage{width:min(430px,96vw);margin-top:-4px;}.featureBand{background:linear-gradient(180deg,#ddf9ff 0%,#d8f4ff 100%);padding:40px 24px 58px;}.featureItem{grid-template-columns:70px 1fr;gap:18px;padding:26px 0;}.featureIcon{width:60px;height:60px;color:rgba(6,68,96,.32);}.featureItem h3{font-size:28px;}.featureItem p{font-size:16px;}.appShowcaseActions{display:grid;grid-template-columns:1fr;max-width:310px;margin:28px auto 0;}}
