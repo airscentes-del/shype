@@ -1,15 +1,15 @@
 const body = document.body;
-const menuToggle = document.querySelector('.menuToggle');
-const closeTargets = document.querySelectorAll('[data-close-menu]');
+const menuButton = document.querySelector('.menuButton');
+const drawerOverlay = document.querySelector('[data-close-drawer]');
 const viewButtons = document.querySelectorAll('[data-view]');
 const panels = document.querySelectorAll('[data-panel]');
-const drawerItems = document.querySelectorAll('.drawerItem[data-view]');
-const bottomItems = document.querySelectorAll('.bottomItem[data-view]');
-const pairButtons = document.querySelectorAll('.marketRow[data-pair]');
+const drawerLinks = document.querySelectorAll('.drawerLink[data-view]');
+const mobileNavItems = document.querySelectorAll('.mobileNavItem[data-view]');
+const marketRows = document.querySelectorAll('.marketRow[data-symbol]');
 
-function closeMenu() {
-  body.classList.remove('menuOpen');
-  if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+function closeDrawer() {
+  body.classList.remove('drawerOpen');
+  if (menuButton) menuButton.setAttribute('aria-expanded', 'false');
 }
 
 function openView(view) {
@@ -17,27 +17,27 @@ function openView(view) {
     panel.classList.toggle('active', panel.dataset.panel === view);
   });
 
-  drawerItems.forEach(item => {
-    item.classList.toggle('active', item.dataset.view === view);
+  drawerLinks.forEach(link => {
+    link.classList.toggle('active', link.dataset.view === view);
   });
 
-  bottomItems.forEach(item => {
+  mobileNavItems.forEach(item => {
     const target = item.dataset.view;
     item.classList.toggle('active', target === view || (view === 'portfolio' && target === 'account'));
   });
 
-  closeMenu();
+  closeDrawer();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-if (menuToggle) {
-  menuToggle.addEventListener('click', () => {
-    const open = body.classList.toggle('menuOpen');
-    menuToggle.setAttribute('aria-expanded', String(open));
+if (menuButton) {
+  menuButton.addEventListener('click', () => {
+    const isOpen = body.classList.toggle('drawerOpen');
+    menuButton.setAttribute('aria-expanded', String(isOpen));
   });
 }
 
-closeTargets.forEach(target => target.addEventListener('click', closeMenu));
+if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
 
 viewButtons.forEach(button => {
   button.addEventListener('click', () => {
@@ -46,15 +46,15 @@ viewButtons.forEach(button => {
   });
 });
 
-pairButtons.forEach(row => {
+marketRows.forEach(row => {
   row.addEventListener('click', () => {
-    const pair = row.dataset.pair || 'SHYPE-USDC';
-    const pairName = document.querySelector('.pairButton strong');
-    if (pairName) pairName.textContent = pair;
+    const symbol = row.dataset.symbol || 'SOL-PERP';
+    const marketTitle = document.querySelector('.marketIdentity strong');
+    if (marketTitle) marketTitle.textContent = symbol;
     openView('trade');
   });
 });
 
 document.addEventListener('keydown', event => {
-  if (event.key === 'Escape') closeMenu();
+  if (event.key === 'Escape') closeDrawer();
 });
