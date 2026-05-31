@@ -9,14 +9,14 @@
   <title>SHYPE — Solana Terminal</title>
   <meta name="description" content="SHYPE is a compact Solana interface for wallet portfolio, token watchlists, swap routing, perps access and launch handoff." />
   <meta name="theme-color" content="#050706" />
-  <link rel="icon" href="IMG_2365.png?v=8" />
-  <link rel="stylesheet" href="styles.css?v=20260531-8" />
-  <link rel="stylesheet" href="shype-extra.css?v=20260531-8" />
-  <link rel="stylesheet" href="button-fix.css?v=20260531-8" />
+  <link rel="icon" href="IMG_2365.png?v=9" />
+  <link rel="stylesheet" href="styles.css?v=20260531-9" />
+  <link rel="stylesheet" href="shype-extra.css?v=20260531-9" />
+  <link rel="stylesheet" href="button-fix.css?v=20260531-9" />
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" type="button" data-view="overview" aria-label="SHYPE home"><img src="IMG_2365.png?v=8" alt="SHYPE" /><span>SHYPE</span></button>
+    <button class="brand" type="button" data-view="overview" aria-label="SHYPE home"><img src="IMG_2365.png?v=9" alt="SHYPE" /><span>SHYPE</span></button>
     <nav class="nav" aria-label="App navigation">
       <button class="navItem active" type="button" data-view="overview">Home</button>
       <button class="navItem" type="button" data-view="swap">Swap</button>
@@ -38,12 +38,22 @@
     </section>
 
     <section class="view" id="swap">
-      <div class="screenHead"><p class="eyebrow">Swap</p><h2>Native SHYPE swap.</h2><p>Clean SHYPE interface with Jupiter routes behind it. One top wallet connection, no embedded Jupiter widget.</p></div>
+      <div class="screenHead"><p class="eyebrow">Swap</p><h2>Native SHYPE swap.</h2><p>Clean SHYPE interface with token logos and Jupiter routes behind it. One top wallet connection, no embedded Jupiter widget.</p></div>
       <div class="contentGrid swapGrid">
         <article class="formPanel swapPanel">
-          <label>Selling<div class="swapLine"><select id="swapFrom"></select><input id="swapAmount" placeholder="0.00" inputmode="decimal" /></div></label>
+          <label>Selling
+            <div class="swapAssetBox">
+              <button class="tokenSelectButton" id="swapFromButton" type="button" data-token-target="from"></button>
+              <input id="swapAmount" placeholder="0.00" inputmode="decimal" />
+            </div>
+          </label>
           <button class="switchButton" id="switchSwap" type="button">⇅</button>
-          <label>Buying<div class="swapLine"><select id="swapTo"></select><input id="swapOut" placeholder="Quote output" readonly /></div></label>
+          <label>Buying
+            <div class="swapAssetBox">
+              <button class="tokenSelectButton" id="swapToButton" type="button" data-token-target="to"></button>
+              <input id="swapOut" placeholder="Quote output" readonly />
+            </div>
+          </label>
           <div class="quoteBox" id="quoteBox">Select tokens and enter an amount to request a quote.</div>
           <div class="swapActions"><button class="primaryAction full" id="getQuote" type="button">Get quote</button><button class="secondaryAction full" id="executeSwap" type="button">Swap with wallet</button></div>
           <p class="note" id="swapNote">Routes are requested from Jupiter. Your wallet signs the transaction; SHYPE never holds funds.</p>
@@ -67,9 +77,10 @@
     <section class="view" id="vault"><div class="screenHead"><p class="eyebrow">Vault</p><h2>Fee routing model.</h2><p>No active fee collection yet. These values go live only after real fee accounts exist.</p></div><div class="contentGrid vaultGrid"><article class="donutPanel"><div class="donut"><span>0 SOL<small>active</small></span></div></article><article class="feePanel"><div><span>SHYPE buyback and burn</span><strong>40%</strong></div><div><span>Liquidity support</span><strong>25%</strong></div><div><span>Event pool</span><strong>25%</strong></div><div><span>Operations treasury</span><strong>10%</strong></div><p>No fake revenue. No fake buybacks.</p></article></div></section>
   </main>
 
+  <div class="tokenPicker walletModal" id="tokenPicker" aria-hidden="true"><div class="walletModalCard tokenPickerCard"><div class="modalHead"><h3>Select token</h3><button id="closeTokenPicker" type="button">×</button></div><input class="tokenSearch" id="tokenSearch" placeholder="Search token or paste mint" /><div id="tokenPickerList" class="tokenPickerList"></div></div></div>
   <div class="walletModal" id="walletModal" aria-hidden="true"><div class="walletModalCard"><div class="modalHead"><h3>Select wallet</h3><button id="closeWalletModal" type="button">×</button></div><div id="walletList" class="walletList"></div><p class="note">Safe connect only. SHYPE never sees your seed phrase or private key.</p></div></div>
 
   <script src="https://unpkg.com/@solana/web3.js@1.95.3/lib/index.iife.min.js"></script>
-  <script src="script.js?v=20260531-8"></script>
+  <script src="script.js?v=20260531-9"></script>
 </body>
 </html>
