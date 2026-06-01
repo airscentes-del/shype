@@ -10,10 +10,18 @@
     .terminalTopbar,.marketHeader,.chartModule,.tradeTicket,.positionPanel,.mobileNav{max-width:100vw!important;overflow-x:hidden!important;}
     .chartFrame,.chartFrame iframe{max-width:100vw!important;overflow:hidden!important;}
     .marketModeTabs,.quoteTabs,.accountTabs,.positionTabs{overscroll-behavior-x:contain!important;}
+    .ticketAction[data-open-demo],button[data-open-demo]{display:none!important;pointer-events:none!important;}
     .shypeEdgeBlock{position:fixed;top:0;bottom:0;width:18px;z-index:2147483000;pointer-events:auto;background:transparent;touch-action:none;}
     .shypeEdgeBlock.left{left:0}.shypeEdgeBlock.right{right:0}
   `;
   document.head.appendChild(style);
+
+  document.addEventListener('click', event => {
+    const demoButton = event.target.closest?.('[data-open-demo]');
+    if (!demoButton) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }, true);
 
   ['left','right'].forEach(side => {
     if (document.querySelector(`.shypeEdgeBlock.${side}`)) return;
@@ -59,7 +67,7 @@
 
   function loadConnectModule() {
     addScript('assets/walletconnect-logo-data.js?v=20260601-01', 'data-shype-wc-logo-data');
-    addScript('app-connect-fix.js?v=20260601-03', 'data-shype-connect-fix');
+    addScript('app-connect-fix.js?v=20260601-05', 'data-shype-connect-fix');
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadConnectModule);
