@@ -8,6 +8,7 @@
     if (src.includes('app-wallet-next.js')) return 0;
     if (src.includes('app-wallet-live.js')) return 0;
     if (src.includes('app-upgrade.js') && Number(timeout) >= 2000) return 0;
+    if (src.includes('app.js') && Number(timeout) >= 2000) return 0;
     return nativeSetInterval(handler, timeout, ...args);
   };
   window.setTimeout = (handler, timeout, ...args) => {
@@ -86,7 +87,7 @@
   function loadConnectModule() {
     addScript('assets/walletconnect-logo-data.js?v=20260601-01', 'data-shype-wc-logo-data');
     addScript('app-connect-fix.js?v=20260601-05', 'data-shype-connect-fix');
-    addScript('app-wallet-stable.js?v=20260601-01', 'data-shype-wallet-stable');
+    addScript('app-wallet-stable.js?v=20260601-02', 'data-shype-wallet-stable');
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadConnectModule);
