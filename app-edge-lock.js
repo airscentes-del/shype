@@ -56,15 +56,15 @@
   document.addEventListener('touchend', () => { edgeGesture = false; }, { passive: true, capture: true });
   document.addEventListener('touchcancel', () => { edgeGesture = false; }, { passive: true, capture: true });
 
-  function loadJupiterModule() {
-    if (document.querySelector('script[data-shype-jupiter-module]')) return;
+  function loadMultiWalletModule() {
+    if (document.querySelector('script[data-shype-multiwallet-module]')) return;
     const script = document.createElement('script');
-    script.src = 'app-jupiter.js?v=20260531-39';
+    script.src = 'app-multiwallet.js?v=20260531-40';
     script.async = false;
-    script.dataset.shypeJupiterModule = 'true';
+    script.dataset.shypeMultiwalletModule = 'true';
     document.body.appendChild(script);
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadJupiterModule);
-  else loadJupiterModule();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadMultiWalletModule);
+  else loadMultiWalletModule();
 })();
