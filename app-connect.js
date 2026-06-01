@@ -9,7 +9,6 @@
 
   const SOLANA_MAINNET = 'solana:4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ';
   const LAPTOP_ICON = 'https://cdn.jsdelivr.net/npm/@tabler/icons@latest/icons/outline/device-laptop.svg';
-  const SCAN_ICON = 'https://cdn.jsdelivr.net/npm/@tabler/icons@latest/icons/outline/scan.svg';
   const WALLETCONNECT_ICON = 'https://registry.walletconnect.org/logo/md/walletconnect-logo.svg';
 
   const state = {
@@ -18,11 +17,12 @@
     provider: null,
     signClient: null,
     wcModal: null,
-    wcSession: null
+    wcSession: null,
+    desktopApproval: null
   };
 
-  const $ = (s, r = document) => r.querySelector(s);
-  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
   function wcProjectId() {
     const meta = document.querySelector('meta[name="walletconnect-project-id"]')?.content || '';
@@ -30,39 +30,57 @@
     return String(globalId || meta).trim();
   }
 
-  function toast(msg) {
-    const t = $('#toast');
-    if (!t) return;
-    t.textContent = msg;
-    t.classList.add('visible');
-    setTimeout(() => t.classList.remove('visible'), 2800);
+  function toast(message) {
+    const toastNode = $('#toast');
+    if (!toastNode) return;
+    toastNode.textContent = message;
+    toastNode.classList.add('visible');
+    setTimeout(() => toastNode.classList.remove('visible'), 2800);
   }
 
-  function addr(v) {
-    if (!v) return '';
-    if (typeof v === 'string') return v;
-    if (typeof v.toBase58 === 'function') return v.toBase58();
-    if (typeof v.toString === 'function') return v.toString();
+  function addressToString(value) {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value.toBase58 === 'function') return value.toBase58();
+    if (typeof value.toString === 'function') return value.toString();
     return '';
   }
 
-  function shortKey(v) { return v ? `${v.slice(0, 4)}…${v.slice(-4)}` : 'Connect'; }
-  function pairParts() { return String($('.marketIdentity strong')?.textContent?.trim() || 'SOL/USDC').split(/[/-]/); }
-  function pairSymbol() { return $('.marketIdentity strong')?.textContent?.trim() || 'SOL/USDC'; }
-  function isSpot() { return pairSymbol().includes('/'); }
-  function read(k, f) { try { return JSON.parse(localStorage.getItem(k) || JSON.stringify(f)); } catch { return f; } }
-  function write(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+  function shortAddress(value) {
+    return value ? `${value.slice(0, 4)}…${value.slice(-4)}` : 'Connect';
+  }
+
+  function pairSymbol() {
+    return $('.marketIdentity strong')?.textContent?.trim() || 'SOL/USDC';
+  }
+
+  function pairParts() {
+    return pairSymbol().split(/[/-]/);
+  }
+
+  function isSpot() {
+    return pairSymbol().includes('/');
+  }
+
+  function readJson(key, fallback) {
+    try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
+    catch { return fallback; }
+  }
+
+  function writeJson(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
 
   function injectStyles() {
     if ($('#shypeConnectStyle')) return;
-    const st = document.createElement('style');
-    st.id = 'shypeConnectStyle';
-    st.textContent = `
+    const style = document.createElement('style');
+    style.id = 'shypeConnectStyle';
+    style.textContent = `
       .scOverlay{position:fixed;inset:0;z-index:2147483600;background:rgba(0,5,10,.68);backdrop-filter:blur(15px);display:none;align-items:flex-end;justify-content:stretch;padding:0;}
       .scOverlay.open{display:flex;}
-      .scSheet{width:100vw;max-width:none;max-height:86svh;overflow:auto;background:#071722;border:1px solid rgba(145,211,239,.22);border-left:0;border-right:0;border-bottom:0;border-radius:26px 26px 0 0;color:#eef8ff;box-shadow:0 -24px 80px rgba(0,0,0,.58);margin:0;}
+      .scSheet{width:100vw;max-width:none;max-height:88svh;overflow:auto;background:#071722;border:1px solid rgba(145,211,239,.22);border-left:0;border-right:0;border-bottom:0;border-radius:26px 26px 0 0;color:#eef8ff;box-shadow:0 -24px 80px rgba(0,0,0,.58);margin:0;padding-bottom:env(safe-area-inset-bottom);}
       .scHead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:23px 23px 16px;}
-      .scTitle{margin:0;font-size:22px;font-weight:520;letter-spacing:-.04em;}
+      .scTitle{margin:0;font-size:22px;font-weight:520;letter-spacing:-.04em;line-height:1.05;}
       .scSub{margin:6px 0 0;color:#9db0bb;font-size:14px;line-height:1.34;}
       .scClose{width:40px;height:40px;border-radius:14px;border:1px solid rgba(145,211,239,.24);background:rgba(255,255,255,.035);color:#dce8ee;font-size:30px;line-height:1;display:grid;place-items:center;padding-bottom:4px;}
       .scBody{padding:0 23px max(18px, env(safe-area-inset-bottom));}
@@ -72,9 +90,9 @@
       .scWcIcon{width:32px;height:32px;}
       .scDivider{display:flex;align-items:center;gap:14px;margin:20px 0 16px;color:#50606b;font-size:11px;text-transform:uppercase;letter-spacing:.12em;}
       .scDivider:before,.scDivider:after{content:"";height:1px;flex:1;background:rgba(145,211,239,.13);}
-      .scMuted{color:#9db0bb;}
       .scPanel{padding:3px 0 8px;}
       .scBack{border:0;background:transparent;color:#75d9ff;font-size:14px;padding:2px 0 17px;}
+      .scMuted{color:#9db0bb;}
       .scInstalled{display:grid;gap:8px;margin-top:14px;}
       .scWallet{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:12px;width:100%;min-height:58px;border:1px solid rgba(145,211,239,.13);border-radius:13px;background:rgba(255,255,255,.03);color:#eef8ff;text-align:left;padding:9px 12px;}
       .scIcon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(115,232,255,.22),rgba(130,92,255,.16));font-weight:650;color:#8ee8ff;overflow:hidden;}
@@ -82,94 +100,89 @@
       .scPill{font-size:12px;color:#75d9ff;border:1px solid rgba(91,202,255,.3);border-radius:999px;padding:5px 9px;}
       .scQrBox{position:relative;display:grid;place-items:center;min-height:312px;border-radius:15px;background:#02070a;margin:12px 0 8px;overflow:hidden;}
       .scQrBox canvas{width:242px!important;height:242px!important;border-radius:12px;background:#fff;padding:10px;}
-      .scQrBox:before{content:"";position:absolute;inset:16%;border:2px dashed rgba(255,88,96,.45);border-radius:14px;pointer-events:none;z-index:2;}
-      .scQrBox:after{content:"";position:absolute;inset:15.5%;border-radius:15px;pointer-events:none;z-index:3;background:linear-gradient(#ff5960,#ff5960) left top/58px 5px no-repeat,linear-gradient(#ff5960,#ff5960) left top/5px 58px no-repeat,linear-gradient(#ff5960,#ff5960) right top/58px 5px no-repeat,linear-gradient(#ff5960,#ff5960) right top/5px 58px no-repeat,linear-gradient(#ff5960,#ff5960) left bottom/58px 5px no-repeat,linear-gradient(#ff5960,#ff5960) left bottom/5px 58px no-repeat,linear-gradient(#ff5960,#ff5960) right bottom/58px 5px no-repeat,linear-gradient(#ff5960,#ff5960) right bottom/5px 58px no-repeat;}
-      .scVideo{width:100%;min-height:312px;object-fit:cover;background:#000;}
-      .scScanLogo{width:50px;height:50px;object-fit:contain;margin:2px auto 18px;display:block;}
       .scInput{width:100%;min-height:48px;border-radius:12px;border:1px solid rgba(145,211,239,.18);background:rgba(255,255,255,.035);color:#eef8ff;padding:0 12px;margin-top:10px;}
       .connectWallet.connected{font-size:16px;letter-spacing:-.02em;}
       wcm-modal{z-index:2147483900!important;}
-      @media(min-width:720px){.scOverlay{align-items:flex-end;}.scSheet{width:min(100vw,520px);margin:0 auto;border-left:1px solid rgba(145,211,239,.22);border-right:1px solid rgba(145,211,239,.22);}}
+      @media(min-width:720px){.scSheet{width:100vw;}}
     `;
-    document.head.appendChild(st);
+    document.head.appendChild(style);
   }
 
   function walletStandard() {
-    const res = [];
-    const add = w => {
-      if (!w?.name || res.some(x => x.name === w.name)) return;
-      if (!w.features?.['standard:connect']) return;
-      const chains = w.chains || [];
-      if (chains.length && !chains.some(c => String(c).startsWith('solana:'))) return;
-      res.push({ name: w.name, type: 'standard', wallet: w, icon: w.icon });
+    const result = [];
+    const add = wallet => {
+      if (!wallet?.name || result.some(item => item.name === wallet.name)) return;
+      if (!wallet.features?.['standard:connect']) return;
+      const chains = wallet.chains || [];
+      if (chains.length && !chains.some(chain => String(chain).startsWith('solana:'))) return;
+      result.push({ name: wallet.name, type: 'standard', wallet, icon: wallet.icon });
     };
     try {
-      const api = { register: (...ws) => ws.forEach(add) };
+      const api = { register: (...wallets) => wallets.forEach(add) };
       window.dispatchEvent(new CustomEvent('wallet-standard:app-ready', { detail: api }));
-      window.addEventListener('wallet-standard:register-wallet', e => { try { e.detail(api); } catch {} });
+      window.addEventListener('wallet-standard:register-wallet', event => { try { event.detail(api); } catch {} });
     } catch {}
-    return res;
+    return result;
   }
 
   function installedWallets() {
     const list = [];
-    const add = w => { if (w?.provider && !list.some(x => x.name === w.name)) list.push(w); };
+    const add = wallet => { if (wallet?.provider && !list.some(item => item.name === wallet.name)) list.push(wallet); };
     add({ name: 'Phantom', type: 'legacy', provider: window.phantom?.solana || (window.solana?.isPhantom ? window.solana : null) });
     add({ name: 'Solflare', type: 'legacy', provider: window.solflare || (window.solana?.isSolflare ? window.solana : null) });
     add({ name: 'Backpack', type: 'legacy', provider: window.backpack?.solana || (window.solana?.isBackpack ? window.solana : null) });
     add({ name: 'Glow', type: 'legacy', provider: window.glowSolana || (window.solana?.isGlow ? window.solana : null) });
     add({ name: 'Exodus', type: 'legacy', provider: window.exodus?.solana });
     add({ name: 'OKX Wallet', type: 'legacy', provider: window.okxwallet?.solana || window.okxWallet?.solana });
-    walletStandard().forEach(w => { if (!list.some(x => x.name === w.name)) list.push(w); });
+    walletStandard().forEach(wallet => { if (!list.some(item => item.name === wallet.name)) list.push(wallet); });
     return list;
   }
 
-  function walletIcon(w) {
-    if (w.icon) return `<img src="${w.icon}" alt="" />`;
-    return w.name.split(/\s+/).map(x => x[0]).slice(0, 2).join('').toUpperCase();
+  function walletIcon(wallet) {
+    if (wallet.icon) return `<img src="${wallet.icon}" alt="" />`;
+    return wallet.name.split(/\s+/).map(part => part[0]).slice(0, 2).join('').toUpperCase();
   }
 
   function sheet() {
     injectStyles();
-    let o = $('#scOverlay');
-    if (o) return o;
-    o = document.createElement('div');
-    o.className = 'scOverlay';
-    o.id = 'scOverlay';
-    o.innerHTML = `<section class="scSheet"><div class="scHead"><div><h2 class="scTitle">Connect</h2><p class="scSub">Link a Solana wallet to SHYPE.</p></div><button class="scClose" type="button" aria-label="Close">×</button></div><div class="scBody" id="scBody"></div></section>`;
-    o.addEventListener('click', e => { if (e.target === o || e.target.closest('.scClose')) closeSheet(); });
-    document.body.appendChild(o);
-    return o;
+    let overlay = $('#scOverlay');
+    if (overlay) return overlay;
+    overlay = document.createElement('div');
+    overlay.className = 'scOverlay';
+    overlay.id = 'scOverlay';
+    overlay.innerHTML = `<section class="scSheet"><div class="scHead"><div><h2 class="scTitle">Connect</h2><p class="scSub">Link a Solana wallet to SHYPE.</p></div><button class="scClose" type="button" aria-label="Close">×</button></div><div class="scBody" id="scBody"></div></section>`;
+    overlay.addEventListener('click', event => { if (event.target === overlay || event.target.closest('.scClose')) closeSheet(); });
+    document.body.appendChild(overlay);
+    return overlay;
   }
 
   function closeSheet() {
     $('#scOverlay')?.classList.remove('open');
-    stopScan();
   }
 
   function showMain() {
-    const o = sheet();
-    $('#scBody', o).innerHTML = `
-      <button class="scAction" type="button" data-sc-link><img class="scActionIcon scLaptopIcon" src="${LAPTOP_ICON}" alt="" /><span>Link Wallet</span></button>
+    const overlay = sheet();
+    $('#scBody', overlay).innerHTML = `
+      <button class="scAction" type="button" data-sc-desktop><img class="scActionIcon scLaptopIcon" src="${LAPTOP_ICON}" alt="" /><span>Link Desktop Wallet</span></button>
       <div class="scDivider">or</div>
       <button class="scAction" type="button" data-sc-wc><img class="scActionIcon scWcIcon" src="${WALLETCONNECT_ICON}" alt="" /><span>WalletConnect</span></button>
     `;
-    o.classList.add('open');
+    overlay.classList.add('open');
   }
 
   async function connectInjected(name) {
-    const w = installedWallets().find(x => x.name === name);
-    if (!w) throw new Error('Wallet not found.');
+    const wallet = installedWallets().find(item => item.name === name);
+    if (!wallet) throw new Error('Wallet not found.');
     let publicKey = '';
-    if (w.type === 'standard') {
-      const r = await w.wallet.features['standard:connect'].connect({ silent: false });
-      const a = r?.accounts?.[0] || w.wallet.accounts?.[0];
-      publicKey = a?.address || addr(a?.publicKey);
-      state.provider = w.wallet;
+    if (wallet.type === 'standard') {
+      const response = await wallet.wallet.features['standard:connect'].connect({ silent: false });
+      const account = response?.accounts?.[0] || wallet.wallet.accounts?.[0];
+      publicKey = account?.address || addressToString(account?.publicKey);
+      state.provider = wallet.wallet;
     } else {
-      const r = await w.provider.connect({ onlyIfTrusted: false }).catch(() => w.provider.connect());
-      publicKey = addr(r?.publicKey || w.provider.publicKey || r?.account?.publicKey);
-      state.provider = w.provider;
+      const response = await wallet.provider.connect({ onlyIfTrusted: false }).catch(() => wallet.provider.connect());
+      publicKey = addressToString(response?.publicKey || wallet.provider.publicKey || response?.account?.publicKey);
+      state.provider = wallet.provider;
     }
     if (!publicKey) throw new Error(`${name} did not return an address.`);
     state.address = publicKey;
@@ -182,48 +195,13 @@
     toast(`${name} connected.`);
   }
 
-  function showLinkWallet() {
-    const ws = installedWallets();
-    const installed = ws.length
-      ? `<div class="scInstalled">${ws.map(w => `<button class="scWallet" type="button" data-sc-wallet="${w.name}"><span class="scIcon">${walletIcon(w)}</span><span>${w.name}</span><span class="scPill">Connect</span></button>`).join('')}</div>`
-      : `<p class="scMuted">No installed wallet detected. Use WalletConnect or open SHYPE inside a wallet browser.</p>`;
-    $('#scBody').innerHTML = `<div class="scPanel"><button class="scBack" type="button" data-sc-main>← Back</button><h2 class="scTitle">Link Wallet</h2><p class="scSub">Installed wallet or QR scan.</p>${installed}<button class="scAction" type="button" data-sc-scan><img class="scActionIcon scLaptopIcon" src="${SCAN_ICON}" alt="" /><span>Scan QR Code</span></button></div>`;
-  }
-
-  let scanStream = null;
-  function stopScan() {
-    scanStream?.getTracks?.().forEach(t => t.stop());
-    scanStream = null;
-  }
-
-  async function showScanner() {
-    $('#scBody').innerHTML = `<div class="scPanel"><button class="scBack" type="button" data-sc-link>← Back</button><img class="scScanLogo" src="IMG_2365.png?v=38" alt="" /><h2 class="scTitle">Scan QR Code</h2><p class="scSub">Scan WalletConnect QR.</p><div class="scQrBox"><video class="scVideo" playsinline muted></video></div><p class="scMuted" id="scanHint">Point camera at QR code.</p></div>`;
-    try {
-      const video = $('.scVideo');
-      scanStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
-      video.srcObject = scanStream;
-      await video.play();
-      scanLoop(video);
-    } catch {
-      $('#scanHint').textContent = 'Camera permission blocked.';
+  async function showDesktopWallet() {
+    const wallets = installedWallets();
+    if (wallets.length) {
+      $('#scBody').innerHTML = `<div class="scPanel"><button class="scBack" type="button" data-sc-main>← Back</button><h2 class="scTitle">Link Desktop Wallet</h2><p class="scSub">Choose installed wallet.</p><div class="scInstalled">${wallets.map(wallet => `<button class="scWallet" type="button" data-sc-wallet="${wallet.name}"><span class="scIcon">${walletIcon(wallet)}</span><span>${wallet.name}</span><span class="scPill">Connect</span></button>`).join('')}</div></div>`;
+      return;
     }
-  }
-
-  async function scanLoop(video) {
-    if (!scanStream || !video.isConnected) return;
-    try {
-      if ('BarcodeDetector' in window) {
-        const detector = new BarcodeDetector({ formats: ['qr_code'] });
-        const codes = await detector.detect(video);
-        const raw = codes?.[0]?.rawValue || '';
-        if (raw.startsWith('wc:')) {
-          stopScan();
-          await connectWalletConnectUri(raw);
-          return;
-        }
-      }
-    } catch {}
-    requestAnimationFrame(() => scanLoop(video));
+    await showDesktopQr();
   }
 
   async function signClient() {
@@ -251,39 +229,17 @@
     state.wcModal = new WalletConnectModal({
       projectId,
       themeMode: 'dark',
-      themeVariables: { '--wcm-z-index': '2147483900', '--wcm-accent-color': '#58caff' }
+      themeVariables: {
+        '--wcm-z-index': '2147483900',
+        '--wcm-accent-color': '#58caff'
+      }
     });
     return state.wcModal;
   }
 
-  async function loadQrLib() {
-    if (window.QRCode?.toCanvas) return;
-    await new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js';
-      s.onload = resolve;
-      s.onerror = reject;
-      document.head.appendChild(s);
-    });
-  }
-
-  async function connectWalletConnectUri(uri) {
+  async function createWalletConnectPairing() {
     const client = await signClient();
-    if (uri) await client.pair({ uri });
-    toast('WalletConnect request sent.');
-  }
-
-  async function showWalletConnect() {
-    const projectId = wcProjectId();
-    if (!projectId) {
-      $('#scBody').innerHTML = `<div class="scPanel"><button class="scBack" type="button" data-sc-main>← Back</button><h2 class="scTitle">WalletConnect</h2><p class="scSub">Project ID missing.</p></div>`;
-      return;
-    }
-
-    $('#scBody').innerHTML = `<div class="scPanel"><button class="scBack" type="button" data-sc-main>← Back</button><h2 class="scTitle">WalletConnect</h2><p class="scSub">Choose wallet or scan QR.</p><div class="scQrBox" id="wcQrBox"><span class="scMuted">Opening WalletConnect…</span></div><input class="scInput" id="wcUriInput" readonly placeholder="WalletConnect URI" /></div>`;
-
-    const client = await signClient();
-    const { uri, approval } = await client.connect({
+    return client.connect({
       requiredNamespaces: {
         solana: {
           chains: [SOLANA_MAINNET],
@@ -292,28 +248,17 @@
         }
       }
     });
+  }
 
-    if (uri) {
-      $('#wcUriInput').value = uri;
-      try {
-        const modal = await walletConnectModal(projectId);
-        $('#wcQrBox').innerHTML = '<span class="scMuted">Select a wallet in WalletConnect.</span>';
-        modal.openModal({ uri });
-      } catch {
-        await loadQrLib();
-        $('#wcQrBox').innerHTML = '<canvas id="wcCanvas"></canvas>';
-        window.QRCode.toCanvas($('#wcCanvas'), uri, { margin: 1, width: 242 });
-      }
-    }
-
+  async function finishWalletConnect(approval) {
     const session = await approval();
     try { state.wcModal?.closeModal?.(); } catch {}
     state.wcSession = session;
     const account = session.namespaces?.solana?.accounts?.[0] || '';
     state.address = account.split(':').pop() || '';
     state.name = 'WalletConnect';
-    state.provider = client;
-    window.SHYPE_CONNECTED_WALLET = { address: state.address, name: state.name, provider: client, session };
+    state.provider = state.signClient;
+    window.SHYPE_CONNECTED_WALLET = { address: state.address, name: state.name, provider: state.provider, session };
     localStorage.setItem('shypeWalletConnected', 'true');
     localStorage.setItem('shypeWalletName', 'WalletConnect');
     updateUi();
@@ -321,27 +266,63 @@
     toast('Wallet connected.');
   }
 
+  async function loadQrLib() {
+    if (window.QRCode?.toCanvas) return;
+    await new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js';
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+
+  async function showDesktopQr() {
+    $('#scBody').innerHTML = `<div class="scPanel"><button class="scBack" type="button" data-sc-main>← Back</button><h2 class="scTitle">Link Desktop Wallet</h2><p class="scSub">Scan QR from wallet app.</p><div class="scQrBox" id="desktopQr"><span class="scMuted">Creating QR…</span></div><input class="scInput" id="desktopUri" readonly placeholder="WalletConnect URI" /></div>`;
+    const { uri, approval } = await createWalletConnectPairing();
+    if (!uri) throw new Error('WalletConnect URI missing.');
+    await loadQrLib();
+    $('#desktopQr').innerHTML = '<canvas id="desktopQrCanvas"></canvas>';
+    window.QRCode.toCanvas($('#desktopQrCanvas'), uri, { margin: 1, width: 242 });
+    $('#desktopUri').value = uri;
+    state.desktopApproval = approval;
+    finishWalletConnect(approval).catch(() => toast('Wallet connection cancelled.'));
+  }
+
+  async function openWalletConnectSelector() {
+    const projectId = wcProjectId();
+    if (!projectId) throw new Error('WalletConnect Project ID missing.');
+    const { uri, approval } = await createWalletConnectPairing();
+    if (!uri) throw new Error('WalletConnect URI missing.');
+    closeSheet();
+    const modal = await walletConnectModal(projectId);
+    modal.openModal({ uri });
+    finishWalletConnect(approval).catch(() => toast('Wallet connection cancelled.'));
+  }
+
   function updateUi() {
-    const label = state.address ? shortKey(state.address) : 'Connect';
-    $$('.connectWallet, .accountSheet .primaryWide').forEach(b => {
-      if (b.hasAttribute('data-view')) return;
-      b.textContent = label;
-      b.classList.toggle('connected', Boolean(state.address));
+    const label = state.address ? shortAddress(state.address) : 'Connect';
+    $$('.connectWallet, .accountSheet .primaryWide').forEach(button => {
+      if (button.hasAttribute('data-view')) return;
+      button.textContent = label;
+      button.classList.toggle('connected', Boolean(state.address));
     });
     const status = $('.walletStatusText');
     if (status) status.textContent = state.address ? `Connected with ${state.name}: ${state.address}` : 'No wallet connected.';
   }
 
-  function raw(amount, decimals) { return String(Math.max(0, Math.round(Number(amount || 0) * 10 ** decimals))); }
+  function raw(amount, decimals) {
+    return String(Math.max(0, Math.round(Number(amount || 0) * 10 ** decimals)));
+  }
 
   async function loadJupiter() {
     if (window.Jupiter) return;
     await new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = 'https://terminal.jup.ag/main-v4.js';
-      s.onload = resolve;
-      s.onerror = reject;
-      document.head.appendChild(s);
+      const script = document.createElement('script');
+      script.src = 'https://terminal.jup.ag/main-v4.js';
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
     });
   }
 
@@ -359,12 +340,17 @@
       endpoint: 'https://api.mainnet-beta.solana.com',
       strictTokenList: false,
       defaultExplorer: 'Solscan',
-      formProps: { initialInputMint: input[0], initialOutputMint: output[0], initialAmount: raw(amount, input[1]), swapMode: 'ExactIn' },
-      onSuccess: r => {
-        const txid = r?.txid || r?.signature || r?.swapResult?.txid || '';
-        const pos = read('shypeSpotPositions', []);
-        pos.unshift({ id: Date.now(), symbol: pairSymbol(), base, quote, amount, entry: 0, txid, walletName: state.name, openedAt: new Date().toISOString() });
-        write('shypeSpotPositions', pos);
+      formProps: {
+        initialInputMint: input[0],
+        initialOutputMint: output[0],
+        initialAmount: raw(amount, input[1]),
+        swapMode: 'ExactIn'
+      },
+      onSuccess: result => {
+        const txid = result?.txid || result?.signature || result?.swapResult?.txid || '';
+        const positions = readJson('shypeSpotPositions', []);
+        positions.unshift({ id: Date.now(), symbol: pairSymbol(), base, quote, amount, entry: 0, txid, walletName: state.name, openedAt: new Date().toISOString() });
+        writeJson('shypeSpotPositions', positions);
         toast('Swap confirmed and tracked.');
       },
       onSwapError: () => toast('Swap cancelled or failed.')
@@ -372,43 +358,49 @@
     window.Jupiter.show?.();
   }
 
-  document.addEventListener('click', async e => {
-    const walletBtn = e.target.closest('.connectWallet, [data-wallet-connect]');
-    if (walletBtn) { e.preventDefault(); e.stopImmediatePropagation(); showMain(); return; }
-
-    const action = e.target.closest('[data-sc-main],[data-sc-link],[data-sc-wc],[data-sc-scan],[data-sc-wallet]');
-    if (action) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      try {
-        if (action.dataset.scMain !== undefined) showMain();
-        else if (action.dataset.scLink !== undefined) showLinkWallet();
-        else if (action.dataset.scWc !== undefined) await showWalletConnect();
-        else if (action.dataset.scScan !== undefined) await showScanner();
-        else if (action.dataset.scWallet) await connectInjected(action.dataset.scWallet);
-      } catch (err) { toast(err.message || 'Connection failed.'); }
+  document.addEventListener('click', async event => {
+    const walletButton = event.target.closest('.connectWallet, [data-wallet-connect]');
+    if (walletButton) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      showMain();
       return;
     }
 
-    const swap = e.target.closest('[data-open-demo], [data-shype-open-swap]');
+    const action = event.target.closest('[data-sc-main],[data-sc-desktop],[data-sc-wc],[data-sc-wallet]');
+    if (action) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      try {
+        if (action.dataset.scMain !== undefined) showMain();
+        else if (action.dataset.scDesktop !== undefined) await showDesktopWallet();
+        else if (action.dataset.scWc !== undefined) await openWalletConnectSelector();
+        else if (action.dataset.scWallet) await connectInjected(action.dataset.scWallet);
+      } catch (error) {
+        toast(error.message || 'Connection failed.');
+      }
+      return;
+    }
+
+    const swap = event.target.closest('[data-open-demo], [data-shype-open-swap]');
     if (swap && isSpot()) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
+      event.preventDefault();
+      event.stopImmediatePropagation();
       await openSwap();
     }
   }, true);
 
   async function init() {
     injectStyles();
-    const prev = localStorage.getItem('shypeWalletName');
-    if (prev && prev !== 'WalletConnect') {
-      const w = installedWallets().find(x => x.name === prev);
+    const previous = localStorage.getItem('shypeWalletName');
+    if (previous && previous !== 'WalletConnect') {
+      const wallet = installedWallets().find(item => item.name === previous);
       try {
-        if (w?.provider?.connect) {
-          const r = await w.provider.connect({ onlyIfTrusted: true });
-          state.address = addr(r?.publicKey || w.provider.publicKey);
-          state.name = w.name;
-          state.provider = w.provider;
+        if (wallet?.provider?.connect) {
+          const response = await wallet.provider.connect({ onlyIfTrusted: true });
+          state.address = addressToString(response?.publicKey || wallet.provider.publicKey);
+          state.name = wallet.name;
+          state.provider = wallet.provider;
         }
       } catch {}
     }
