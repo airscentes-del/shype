@@ -1,6 +1,5 @@
 (() => {
   window.SHYPE_WALLETCONNECT_PROJECT_ID = window.SHYPE_WALLETCONNECT_PROJECT_ID || '56121115b23e4a5a565c3ae7977b37cc';
-  const WC_LOGO = 'https://walletconnect.com/walletconnect-logo.svg';
 
   const style = document.createElement('style');
   style.textContent = `
@@ -13,38 +12,8 @@
     .marketModeTabs,.quoteTabs,.accountTabs,.positionTabs{overscroll-behavior-x:contain!important;}
     .shypeEdgeBlock{position:fixed;top:0;bottom:0;width:18px;z-index:2147483000;pointer-events:auto;background:transparent;touch-action:none;}
     .shypeEdgeBlock.left{left:0}.shypeEdgeBlock.right{right:0}
-    .scWcImg{width:36px;height:36px;display:block;object-fit:contain}.scAction[data-sc-wc] .scWcIcon{display:none!important}.scAction[data-sc-wc]{cursor:pointer;pointer-events:auto!important}.scAction.isOpening{opacity:.72}.scAction.isOpening span:last-child{color:#bfeeff}
   `;
   document.head.appendChild(style);
-
-  function wcMark() {
-    return `<img class="scWcImg" src="${WC_LOGO}" alt="" />`;
-  }
-
-  function patchConnectSheet() {
-    const wcButton = document.querySelector('.scAction[data-sc-wc]');
-    if (wcButton && !wcButton.querySelector('.scWcImg') && !wcButton.querySelector('.scWcLogo') && !wcButton.querySelector('.scWcExact')) {
-      wcButton.innerHTML = `${wcMark()}<span>WalletConnect</span>`;
-    }
-    const desktopButton = document.querySelector('.scAction[data-sc-desktop]');
-    if (desktopButton) desktopButton.style.pointerEvents = 'auto';
-  }
-
-  new MutationObserver(patchConnectSheet).observe(document.documentElement, { childList: true, subtree: true });
-  document.addEventListener('pointerdown', event => {
-    const wcButton = event.target.closest?.('.scAction[data-sc-wc]');
-    const desktopButton = event.target.closest?.('.scAction[data-sc-desktop]');
-    if (wcButton && !wcButton.querySelector('.scWcExact')) {
-      patchConnectSheet();
-      wcButton.classList.add('isOpening');
-      wcButton.innerHTML = `${wcMark()}<span>Opening WalletConnect…</span>`;
-    }
-    if (desktopButton) {
-      desktopButton.classList.add('isOpening');
-      const label = desktopButton.querySelector('span:last-child');
-      if (label) label.textContent = 'Checking wallets…';
-    }
-  }, true);
 
   ['left','right'].forEach(side => {
     if (document.querySelector(`.shypeEdgeBlock.${side}`)) return;
@@ -85,14 +54,12 @@
     script.src = src;
     script.async = false;
     script.setAttribute(attr, 'true');
-    script.addEventListener('load', () => setTimeout(patchConnectSheet, 80));
     document.body.appendChild(script);
   }
 
   function loadConnectModule() {
     addScript('assets/walletconnect-logo-data.js?v=20260601-01', 'data-shype-wc-logo-data');
-    addScript('app-connect-fix.js?v=20260601-02', 'data-shype-connect-fix');
-    addScript('app-connect.js?v=20260531-47', 'data-shype-connect-module');
+    addScript('app-connect-fix.js?v=20260601-03', 'data-shype-connect-fix');
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadConnectModule);
