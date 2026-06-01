@@ -87,7 +87,7 @@
   function loadConnectModule() {
     addScript('assets/walletconnect-logo-data.js?v=20260601-01', 'data-shype-wc-logo-data');
     addScript('app-connect-fix.js?v=20260601-05', 'data-shype-connect-fix');
-    addScript('app-wallet-stable.js?v=20260601-02', 'data-shype-wallet-stable');
+    addScript('app-wallet-stable.js?v=20260601-06', 'data-shype-wallet-stable');
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadConnectModule);
