@@ -11,6 +11,8 @@
     .chartFrame,.chartFrame iframe{max-width:100vw!important;overflow:hidden!important;}
     .marketModeTabs,.quoteTabs,.accountTabs,.positionTabs{overscroll-behavior-x:contain!important;}
     .ticketAction[data-open-demo],button[data-open-demo]{display:none!important;pointer-events:none!important;}
+    .emptyState button[data-view="markets"]{display:none!important;}
+    .accountSheet.compact .primaryWide{display:none!important;}
     .shypeEdgeBlock{position:fixed;top:0;bottom:0;width:18px;z-index:2147483000;pointer-events:auto;background:transparent;touch-action:none;}
     .shypeEdgeBlock.left{left:0}.shypeEdgeBlock.right{right:0}
   `;
