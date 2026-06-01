@@ -1,4 +1,6 @@
 (() => {
+  window.SHYPE_WALLETCONNECT_PROJECT_ID = window.SHYPE_WALLETCONNECT_PROJECT_ID || '56121115b23e4a5a565c3ae7977b37cc';
+
   const style = document.createElement('style');
   style.textContent = `
     html,body,.appShell,.terminalMain,.appView{
@@ -59,7 +61,7 @@
   function loadConnectModule() {
     if (document.querySelector('script[data-shype-connect-module]')) return;
     const script = document.createElement('script');
-    script.src = 'app-connect.js?v=20260531-41';
+    script.src = 'app-connect.js?v=20260531-42';
     script.async = false;
     script.dataset.shypeConnectModule = 'true';
     document.body.appendChild(script);
