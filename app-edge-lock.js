@@ -70,6 +70,7 @@
   function loadConnectModule() {
     addScript('assets/walletconnect-logo-data.js?v=20260601-01', 'data-shype-wc-logo-data');
     addScript('app-connect-fix.js?v=20260601-05', 'data-shype-connect-fix');
+    addScript('app-wallet-live.js?v=20260601-02', 'data-shype-wallet-live');
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadConnectModule);
