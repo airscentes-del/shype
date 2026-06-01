@@ -23,7 +23,7 @@
 
   function patchConnectSheet() {
     const wcButton = document.querySelector('.scAction[data-sc-wc]');
-    if (wcButton && !wcButton.querySelector('.scWcImg') && !wcButton.querySelector('.scWcLogo')) {
+    if (wcButton && !wcButton.querySelector('.scWcImg') && !wcButton.querySelector('.scWcLogo') && !wcButton.querySelector('.scWcExact')) {
       wcButton.innerHTML = `${wcMark()}<span>WalletConnect</span>`;
     }
     const desktopButton = document.querySelector('.scAction[data-sc-desktop]');
@@ -34,7 +34,7 @@
   document.addEventListener('pointerdown', event => {
     const wcButton = event.target.closest?.('.scAction[data-sc-wc]');
     const desktopButton = event.target.closest?.('.scAction[data-sc-desktop]');
-    if (wcButton) {
+    if (wcButton && !wcButton.querySelector('.scWcExact')) {
       patchConnectSheet();
       wcButton.classList.add('isOpening');
       wcButton.innerHTML = `${wcMark()}<span>Opening WalletConnect…</span>`;
@@ -90,8 +90,9 @@
   }
 
   function loadConnectModule() {
+    addScript('assets/walletconnect-logo-data.js?v=20260601-01', 'data-shype-wc-logo-data');
+    addScript('app-connect-fix.js?v=20260601-02', 'data-shype-connect-fix');
     addScript('app-connect.js?v=20260531-47', 'data-shype-connect-module');
-    addScript('app-connect-fix.js?v=20260531-01', 'data-shype-connect-fix');
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadConnectModule);
