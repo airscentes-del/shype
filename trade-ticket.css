@@ -53,5 +53,11 @@
 .metricToggle::before{content:"";width:10px;height:10px;border-right:2px solid #c7d4dc;border-bottom:2px solid #c7d4dc;position:absolute;left:50%;top:48%;transform:translate(-50%,-50%) rotate(45deg);border-radius:1px;transition:transform .18s ease,border-color .18s ease;}
 .metricToggle.open{background:rgba(69,201,255,.055)!important;border-color:rgba(69,201,255,.42)!important;box-shadow:0 0 0 1px rgba(69,201,255,.08)!important;}
 .metricToggle.open::before{border-color:#75d9ff;transform:translate(-50%,-35%) rotate(225deg);}
+html,body,.appShell,.terminalMain,.appView{width:100%!important;max-width:100%!important;overflow-x:hidden!important;overscroll-behavior-x:none!important;}
+body{position:relative!important;touch-action:pan-y pinch-zoom!important;-webkit-overflow-scrolling:touch!important;}
+.appShell{overscroll-behavior:none!important;contain:layout paint!important;}
+.terminalTopbar,.marketHeader,.chartModule,.tradeTicket,.positionPanel,.mobileNav{max-width:100vw!important;overflow-x:hidden!important;}
+.chartFrame,.chartFrame iframe{max-width:100vw!important;overflow:hidden!important;}
+.marketModeTabs,.quoteTabs,.accountTabs,.positionTabs{overscroll-behavior-x:contain!important;}
 @media(min-width:940px){.tradeTicket.proTicket{grid-template-columns:minmax(0,520px) minmax(320px,1fr)!important;}.ticketForm{padding:15px 18px 16px;}}
 @media(max-width:420px){.tradeTicket.proTicket{grid-template-columns:minmax(0,62%) minmax(0,38%)!important;}.ticketForm{padding:10px 10px 12px;}.ticketTopControls{gap:5px;}.ticketTopControls button,.ticketSelect{font-size:12px;}.sideTabs button{font-size:13px;min-height:32px;}.ticketBalance,.ticketMetric,.checkLine,.spotRouteLine{font-size:12px;}.compactInput{min-height:36px;}.compactInput input{font-size:14px;padding-inline:10px;}.compactInput em{font-size:12px;padding-inline:8px;}.miniBookHead,.miniBookRow{padding-inline:8px;font-size:12px;gap:4px;}.midPrice{font-size:18px;padding-inline:8px;}.accountTabs button{font-size:14px!important;padding:0 8px!important;}.positionTabs{gap:28px!important;}.emptyState{font-size:16px!important;}.emptyState button{font-size:15px!important;padding:0 16px!important;}.metricToggle{width:38px!important;height:38px!important;border-radius:10px!important;}.metricToggle::before{width:9px;height:9px;border-width:2px;}}
