@@ -56,15 +56,15 @@
   document.addEventListener('touchend', () => { edgeGesture = false; }, { passive: true, capture: true });
   document.addEventListener('touchcancel', () => { edgeGesture = false; }, { passive: true, capture: true });
 
-  function loadMultiWalletModule() {
-    if (document.querySelector('script[data-shype-multiwallet-module]')) return;
+  function loadConnectModule() {
+    if (document.querySelector('script[data-shype-connect-module]')) return;
     const script = document.createElement('script');
-    script.src = 'app-multiwallet.js?v=20260531-40';
+    script.src = 'app-connect.js?v=20260531-41';
     script.async = false;
-    script.dataset.shypeMultiwalletModule = 'true';
+    script.dataset.shypeConnectModule = 'true';
     document.body.appendChild(script);
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadMultiWalletModule);
-  else loadMultiWalletModule();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadConnectModule);
+  else loadConnectModule();
 })();
