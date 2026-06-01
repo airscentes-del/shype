@@ -1,6 +1,20 @@
 (() => {
   window.SHYPE_WALLETCONNECT_PROJECT_ID = window.SHYPE_WALLETCONNECT_PROJECT_ID || '56121115b23e4a5a565c3ae7977b37cc';
 
+  const nativeSetInterval = window.setInterval.bind(window);
+  const nativeSetTimeout = window.setTimeout.bind(window);
+  window.setInterval = (handler, timeout, ...args) => {
+    const src = document.currentScript?.src || '';
+    if (src.includes('app-wallet-next.js')) return 0;
+    if (src.includes('app-upgrade.js') && Number(timeout) >= 2000) return 0;
+    return nativeSetInterval(handler, timeout, ...args);
+  };
+  window.setTimeout = (handler, timeout, ...args) => {
+    const src = document.currentScript?.src || '';
+    if (src.includes('app-wallet-next.js')) return 0;
+    return nativeSetTimeout(handler, timeout, ...args);
+  };
+
   const style = document.createElement('style');
   style.textContent = `
     html,body,.appShell,.terminalMain,.appView{width:100%;max-width:100%;overflow-x:hidden!important;overscroll-behavior-x:none!important;}
@@ -10,16 +24,19 @@
     .terminalTopbar,.marketHeader,.chartModule,.tradeTicket,.positionPanel,.mobileNav{max-width:100vw!important;overflow-x:hidden!important;}
     .chartFrame,.chartFrame iframe{max-width:100vw!important;overflow:hidden!important;}
     .marketModeTabs,.quoteTabs,.accountTabs,.positionTabs{overscroll-behavior-x:contain!important;}
-    .ticketAction[data-open-demo],button[data-open-demo]{display:none!important;pointer-events:none!important;}
+    .ticketAction[data-open-demo],button[data-open-demo],#buyButton,.buyButton{display:none!important;pointer-events:none!important;}
     .emptyState button[data-view="markets"]{display:none!important;}
     .accountSheet.compact .primaryWide{display:none!important;}
+    .walletSlider input[type=range]{-webkit-appearance:none;appearance:none;height:6px;border-radius:999px;background:linear-gradient(90deg,#58caff 0%,#58caff var(--p,0%),rgba(145,211,239,.25) var(--p,0%),rgba(145,211,239,.25) 100%)!important;outline:none;}
+    .walletSlider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:#58caff;border:3px solid #071722;box-shadow:0 0 0 1px rgba(88,202,255,.65),0 4px 14px rgba(0,0,0,.4);}
+    .walletSlider input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#58caff;border:3px solid #071722;}
     .shypeEdgeBlock{position:fixed;top:0;bottom:0;width:18px;z-index:2147483000;pointer-events:auto;background:transparent;touch-action:none;}
     .shypeEdgeBlock.left{left:0}.shypeEdgeBlock.right{right:0}
   `;
   document.head.appendChild(style);
 
   document.addEventListener('click', event => {
-    const demoButton = event.target.closest?.('[data-open-demo]');
+    const demoButton = event.target.closest?.('[data-open-demo],#buyButton,.buyButton');
     if (!demoButton) return;
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -70,7 +87,7 @@
   function loadConnectModule() {
     addScript('assets/walletconnect-logo-data.js?v=20260601-01', 'data-shype-wc-logo-data');
     addScript('app-connect-fix.js?v=20260601-05', 'data-shype-connect-fix');
-    addScript('app-wallet-live.js?v=20260601-02', 'data-shype-wallet-live');
+    addScript('app-wallet-live.js?v=20260601-03', 'data-shype-wallet-live');
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadConnectModule);
