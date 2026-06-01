@@ -61,7 +61,7 @@
   function loadConnectModule() {
     if (document.querySelector('script[data-shype-connect-module]')) return;
     const script = document.createElement('script');
-    script.src = 'app-connect.js?v=20260531-42';
+    script.src = 'app-connect.js?v=20260531-43';
     script.async = false;
     script.dataset.shypeConnectModule = 'true';
     document.body.appendChild(script);
